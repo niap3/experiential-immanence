@@ -10,7 +10,7 @@
 .ride-toggle[data-playing=true] .ride-play-icon,.ride-toggle[data-playing=false] .ride-pause-icon{display:none}
 
 @media(max-width:600px){.ride-overlay{margin:3rem auto}}
-</style></head><body><figure class="ride-overlay" aria-label="A recorded ride with handwritten notes for experiences that appear and fade">
+</style></head><body><figure class="ride-overlay" aria-label="A recorded viewpoint where seeing, sound, bodily feeling, thought, memory and an I-thought appear and fade in one scene">
   <div class="ride-frame">
     <video id="ride-video" muted playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
     <canvas id="ride-canvas" aria-hidden="true"></canvas>
@@ -100,19 +100,19 @@
       ctx.font = size + "px Caveat, 'Comic Sans MS', cursive";
       width = ctx.measureText(text).width;
     }
-    var boxWidth = width + 19, boxHeight = size * 1.3;
-    var left = options.align === "right" ? x - boxWidth : options.align === "center" ? x - boxWidth / 2 : x;
-    left = Math.max(12, Math.min(W - boxWidth - 12, left));
-    var top = Math.max(10, Math.min(H - boxHeight - 10, y - boxHeight / 2));
-    ctx.translate(left, top);
+    var left = options.align === "right" ? x - width : options.align === "center" ? x - width / 2 : x;
+    left = Math.max(14, Math.min(W - width - 14, left));
+    y = Math.max(size + 10, Math.min(H - size - 10, y));
+    ctx.translate(left, y);
     ctx.rotate(jitter(options.seed || x + y, 8) * .006);
-    ctx.fillStyle = "rgba(0,0,0,.25)";
-    ctx.fillRect(3, 3, boxWidth, boxHeight);
-    ctx.fillStyle = "#fbf6ea";
-    ctx.fillRect(0, 0, boxWidth, boxHeight);
-    ctx.beginPath(); ctx.rect(0, 0, boxWidth * reveal, boxHeight); ctx.clip();
-    ctx.fillStyle = "#2a2724"; ctx.textBaseline = "middle";
-    ctx.fillText(text, 9, boxHeight / 2 + 1);
+    ctx.beginPath(); ctx.rect(-6, -size, (width + 12) * reveal, size * 2); ctx.clip();
+    ctx.textBaseline = "middle";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "rgba(255,248,234,.88)";
+    ctx.lineWidth = 5;
+    ctx.strokeText(text, 0, 0);
+    ctx.fillStyle = "#25221d";
+    ctx.fillText(text, 0, 0);
     ctx.restore();
   }
 
@@ -146,14 +146,22 @@
       }
     });
     mark(5.1, 13.7, "wind on my skin", 30, 770, colors.touch, { seed: 15 });
-    mark(6.0, 17.6, "my body leans", 270, 872, colors.body, { align: "center", seed: 16 }, function (p) {
+    mark(6.0, 17.6, "a slight lean", 270, 872, colors.body, { align: "center", seed: 16 }, function (p) {
       curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], colors.body, p, false, 33);
     });
-    mark(7.9, 12.3, "how far is it now?", 390, 160, colors.thought, { align: "center", seed: 17 });
-    mark(9.8, 15.6, "I expect another bend", 270, 222, colors.expectation, { align: "center", seed: 18 }, function (p) {
-      curve([[215, 292], [250, 262], [300, 250], [340, 262]], colors.expectation, p, true, 34);
+    mark(7.9, 12.3, "“How far now?”", 390, 160, colors.thought, { align: "center", seed: 17 });
+    mark(9.8, 15.6, "“Another bend soon”", 270, 222, colors.expectation, { align: "center", seed: 18 }, function (p) {
+      curve([[215, 292], [250, 262], [300, 250], [340, 262]], colors.expectation, p, false, 34);
     });
-    mark(13.2, 18.2, "I remember the sunset", 35, 350, colors.memory, { seed: 19 });
+    mark(11.6, 15.1, "“I’m on my way”", 270, 575, colors.thought, { align: "center", seed: 21 });
+    mark(13.2, 18.2, "the sunset comes back to mind", 35, 350, colors.memory, { seed: 19 }, function (p) {
+      var arc = [];
+      for (var i = 0; i <= 16; i++) {
+        var a = Math.PI + i / 16 * Math.PI;
+        arc.push([120 + Math.cos(a) * 36, 300 + Math.sin(a) * 36]);
+      }
+      stroke(arc, colors.memory, 2.3, p, false, 35);
+    });
     mark(16.3, 21.9, "a passing calm", 270, 195, colors.feeling, { align: "center", seed: 20 });
   }
 
