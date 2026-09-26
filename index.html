@@ -160,22 +160,22 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
       draw: function (T, p) {
         var q = seg(p, 0.05, 0.6);
         path([[18, 90], [522, 84], [528, 940], [14, 946], [18, 90]], { p: q, w: 3, seed: 10 });
-        note("whatever is encountered…", 270, 480, { align: "center", size: 30, p: seg(p, 0.5, 0.75), seed: 20 });
-        note("…is encountered in appearing", 270, 530, { align: "center", size: 30, p: seg(p, 0.65, 0.9), seed: 21 });
+        note("The road comes into view.", 270, 480, { align: "center", size: 30, p: seg(p, 0.5, 0.75), seed: 20 });
+        note("A thought comes with it.", 270, 530, { align: "center", size: 30, p: seg(p, 0.65, 0.9), seed: 21 });
         title(this.t, p);
       } },
     { t: "Modes of givenness", l: "The road is seen. Sound is heard. The next turn may be anticipated. One's own posture may be felt. Each is admitted in its own manner.", d: 11,
       draw: function (T, p) {
         var items = [
-          [function (q) { curve([[250, 330], [300, 400], [360, 520]], { p: q, color: C.sight, seed: 30 }); }, "the road is seen", 300, 470, C.sight, "left"],
-          [function (q) { if (q > 0) waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2); }, "sound, if heard", 30, 610, C.hear, "left"],
-          [function (q) { curve([[215, 292], [250, 262], [300, 250], [340, 262]], { p: q, color: C.mean, dash: [6, 7], seed: 31 }); }, "the next turn, anticipated", 250, 222, C.mean, "left"],
-          [function (q) { curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], { p: q, color: C.body, seed: 32 }); }, "one's posture, if felt", 270, 872, C.body, "center"],
-          [function (q) { if (q > 0) glow(A.grip[0], A.grip[1], 70, "rgba(255,184,168,.9)", 0.5 * q); }, "perhaps, air on the skin", 520, 700, C.touch, "right"],
-          [function (q) { ellipse(A.mirror[0], A.mirror[1], 60, 58, { p: q, color: C.sight, seed: 33 }); }, "a small world in the mirror", 520, 520, C.sight, "right"],
-          [function (q) {}, "a white curve of helmet", 20, 330, C.self, "left"],
-          [function (q) {}, "a lean, if felt", 520, 400, C.body, "right"],
-          [function (q) {}, "perhaps, an easy quiet", 270, 160, C.mood, "center"],
+          [function (q) { curve([[250, 330], [300, 400], [360, 520]], { p: q, color: C.sight, seed: 30 }); }, "the road ahead", 300, 470, C.sight, "left"],
+          [function (q) { if (q > 0) waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2); }, "sound", 30, 610, C.hear, "left"],
+          [function (q) { curve([[215, 292], [250, 262], [300, 250], [340, 262]], { p: q, color: C.mean, dash: [6, 7], seed: 31 }); }, "I expect another turn", 250, 222, C.mean, "left"],
+          [function (q) { curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], { p: q, color: C.body, seed: 32 }); }, "my body leans", 270, 872, C.body, "center"],
+          [function (q) { if (q > 0) glow(A.grip[0], A.grip[1], 70, "rgba(255,184,168,.9)", 0.5 * q); }, "wind on my skin", 520, 700, C.touch, "right"],
+          [function (q) { ellipse(A.mirror[0], A.mirror[1], 60, 58, { p: q, color: C.sight, seed: 33 }); }, "the mirror", 520, 520, C.sight, "right"],
+          [function (q) {}, "the white helmet", 20, 330, C.self, "left"],
+          [function (q) {}, "the sway of the ride", 520, 400, C.body, "right"],
+          [function (q) {}, "a passing calm", 270, 160, C.mood, "center"],
           [function (q) { cloud(390, 108, 230, 62, { p: q, color: C.think, seed: 34 }); }, "how far is it now?", 390, 108, C.think, "center"]
         ];
         items.forEach(function (it, i) {
@@ -192,7 +192,7 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
           ["thought", "concepts", "sensation"].forEach(function (nm, i) { var y = 300 + i * 150, q = seg(p, 0.02 + i * 0.08, 0.2 + i * 0.08);
             path([[70, y], [330, y - 60], [480, y + 10], [220, y + 70], [70, y]], { p: q, seed: 60 + i }); note(nm, 270, y + 5, { align: "center", size: 27, p: q, seed: 70 + i }); });
           line(60, 250, 490, 720, { p: seg(p, 0.32, 0.46), color: RED, w: 4, seed: 80 }); line(490, 250, 60, 720, { p: seg(p, 0.4, 0.52), color: RED, w: 4, seed: 81 });
-          note("not layers", 270, 780, { align: "center", size: 30, p: seg(p, 0.45, 0.55), paper: "#FFE9E4", seed: 82 });
+          note("not stacked like this", 270, 780, { align: "center", size: 30, p: seg(p, 0.45, 0.55), paper: "#FFE9E4", seed: 82 });
           ctx.restore();
         }
         note("one lived situation", 270, 480, { align: "center", size: 32, p: seg(p, 0.75, 0.92), seed: 83 });
@@ -201,21 +201,21 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
     { t: "Epoché", l: "The thought is admitted as experience. What it asserts is not thereby established: assent is suspended within this inquiry.", d: 9,
       draw: function (T, p) {
         waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2);
-        note("a hum, heard", 30, 610, { size: 24, dot: C.hear, p: seg(p, 0, 0.12), seed: 90 });
+        note("the sound", 30, 610, { size: 24, dot: C.hear, p: seg(p, 0, 0.12), seed: 90 });
         var q = seg(p, 0.1, 0.3);
         cloud(290, 330, 420, 110, { p: q, color: C.think, w: 3, seed: 91 });
-        var w = note("the engine causes this hum", 290, 330, { align: "center", size: 30, p: seg(p, 0.2, 0.42), seed: 92 }) || 330;
+        var w = note("The engine makes that sound.", 290, 330, { align: "center", size: 30, p: seg(p, 0.2, 0.42), seed: 92 }) || 330;
         var bq = seg(p, 0.5, 0.64), L = 290 - w / 2 - 14, R = 290 + w / 2 + 14;
         path([[L + 12, 300], [L, 300], [L, 360], [L + 12, 360]], { p: bq, w: 4, seed: 93 }); path([[R - 12, 300], [R, 300], [R, 360], [R - 12, 360]], { p: bq, w: 4, seed: 94 });
-        note("admitted: the thought", 90, 430, { size: 26, p: seg(p, 0.66, 0.78), seed: 95 });
-        note("suspended: its assertion", 90, 475, { size: 26, p: seg(p, 0.76, 0.9), paper: "#EAF1FD", color: "#35598F", seed: 96 });
+        note("That thought is here.", 90, 430, { size: 26, p: seg(p, 0.66, 0.78), seed: 95 });
+        note("I can leave it open.", 90, 475, { size: 26, p: seg(p, 0.76, 0.9), paper: "#EAF1FD", color: "#35598F", seed: 96 });
         title(this.t, p);
       } },
     { t: "Immanent and transcendent", l: "Delete from the description, not from experience. If the description breaks, the item was immanent; if every appearing stays described, it was a transcendent commitment.", d: 12,
       draw: function (T, p) {
         ctx.save(); ctx.globalAlpha = seg(p, 0, 0.08) * 0.93; ctx.fillStyle = "#FBF6EA"; roughRect(40, 130, 460, 360, 100); ctx.restore();
-        note("the description", 60, 165, { size: 28, bold: true, p: seg(p, 0.03, 0.1), paper: "rgba(0,0,0,0)", seed: 101 });
-        var lines = [["· a hum, rising and falling", "#2A2724"], ["· the thought: the engine causes it", "#9A3E78"], ["· the engine causes it", "#35598F"]];
+        note("What I can describe", 60, 165, { size: 28, bold: true, p: seg(p, 0.03, 0.1), paper: "rgba(0,0,0,0)", seed: 101 });
+        var lines = [["· the sound rises and falls", "#2A2724"], ["· I think the engine causes it", "#9A3E78"], ["· the engine causes it", "#35598F"]];
         ctx.save(); ctx.font = "26px Caveat, cursive"; ctx.textBaseline = "middle";
         lines.forEach(function (ln, i) { var q = seg(p, 0.08 + i * 0.05, 0.16 + i * 0.05); if (q <= 0) return; ctx.save(); ctx.beginPath(); ctx.rect(60, 190 + i * 50, 420 * q, 50); ctx.clip(); ctx.fillStyle = ln[1]; ctx.fillText(ln[0], 64, 215 + i * 50); ctx.restore(); });
         ctx.restore();
@@ -223,23 +223,23 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
         if (seg(p, 0.3, 0.42) > 0 && p < 0.5) line(64, 315, 64 + 330 * seg(p, 0.3, 0.42), 315, { color: RED, w: 5, seed: 110 });
         if (gone > 0) { ctx.save(); ctx.globalAlpha = gone; ctx.fillStyle = "#FBF6EA"; ctx.fillRect(58, 292, 430, 46); ctx.restore(); }
         ctx.save(); ctx.font = "25px Caveat, cursive"; ctx.textBaseline = "middle";
-        if (p > 0.5) { ctx.fillStyle = "#3E7A2C"; ctx.fillText("assent withheld; hum still described", 64, 380); }
-        if (p > 0.72 && p < 0.9) { line(64, 215, 64 + 300 * seg(p, 0.72, 0.8), 215, { color: RED, w: 5, seed: 111 }); ctx.fillStyle = "#B24A3A"; ctx.fillText("…the hum goes undescribed ✗", 64, 425); }
-        if (p >= 0.9) { ctx.fillStyle = "#2A2724"; ctx.fillText("the hum's line → immanent", 64, 425); }
+        if (p > 0.5) { ctx.fillStyle = "#3E7A2C"; ctx.fillText("The sound and thought remain.", 64, 380); }
+        if (p > 0.72 && p < 0.9) { line(64, 215, 64 + 300 * seg(p, 0.72, 0.8), 215, { color: RED, w: 5, seed: 111 }); ctx.fillStyle = "#B24A3A"; ctx.fillText("Now the sound is missing.", 64, 425); }
+        if (p >= 0.9) { ctx.fillStyle = "#2A2724"; ctx.fillText("Without that line, something is lost.", 64, 425); }
         ctx.restore();
         var wq = seg(p, 0.45, 0.62);
         ellipse(160, 700, 42, 42, { p: wq, color: BLUE, dash: [7, 7], seed: 120 }); ellipse(160, 700, 14, 14, { p: wq, color: BLUE, dash: [5, 6], seed: 121 });
         path([[110, 640], [230, 640], [230, 760], [110, 760], [110, 640]], { p: wq, color: BLUE, dash: [7, 7], seed: 122 });
-        note("an engine?", 250, 700, { size: 26, p: wq, paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 123 });
+        note("the engine?", 250, 700, { size: 26, p: wq, paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 123 });
         title(this.t, p);
       } },
     { t: "Intentionality and horizon", l: "The road ahead is seen; its continuation beyond the bend is given as anticipated, not as seen. Being about something does not establish its referent.", d: 9,
       draw: function (T, p) {
         curve([[330, 520], [270, 380], [215, 292]], { p: seg(p, 0.05, 0.3), color: C.sight, w: 3.2, seed: 130 });
-        note("seen: the road ahead", 300, 470, { size: 25, dot: C.sight, p: seg(p, 0.2, 0.35), seed: 131 });
+        note("the road in front of me", 300, 470, { size: 25, dot: C.sight, p: seg(p, 0.2, 0.35), seed: 131 });
         curve([[215, 292], [240, 262], [300, 245], [380, 240], [470, 250]], { p: seg(p, 0.35, 0.65), color: BLUE, dash: [7, 8], w: 3, seed: 132 });
-        note("beyond the bend: anticipated", 270, 200, { align: "center", size: 25, p: seg(p, 0.55, 0.72), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 133 });
-        note("aboutness appears; existence is undecided", 270, 560, { align: "center", size: 23, p: seg(p, 0.75, 0.92), seed: 134 });
+        note("I expect the road to continue", 270, 200, { align: "center", size: 25, p: seg(p, 0.55, 0.72), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 133 });
+        note("I can think past what I see.", 270, 560, { align: "center", size: 23, p: seg(p, 0.75, 0.92), seed: 134 });
         title(this.t, p);
       } },
     { t: "Pre-reflective self-manifestation", l: "The ride is lived without a second act observing it. Reflection is a further mode of experience, not a hidden watcher.", d: 8,
@@ -248,31 +248,31 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
         ctx.save(); ctx.globalAlpha = 1 - seg(p, 0.78, 0.96);
         path([[210, ey], [270, ey - 26], [330, ey], [270, ey + 26], [210, ey]], { p: q, w: 3, seed: 140 }); ellipse(270, ey, 13, 13, { p: q, seed: 141 });
         for (var i = 0; i < 3; i++) line(240 + i * 30, ey + 34, 160 + i * 110, ey + 170, { p: seg(p, 0.3, 0.45), dash: [5, 8], w: 1.8, seed: 142 + i });
-        note("a second act required?", 350, ey, { size: 26, p: seg(p, 0.3, 0.45), seed: 146 });
+        note("another watcher?", 350, ey, { size: 26, p: seg(p, 0.3, 0.45), seed: 146 });
         line(190, ey - 40, 350, ey + 40, { p: seg(p, 0.5, 0.62), color: RED, w: 4.5, seed: 147 });
         ctx.restore();
-        note("no second act is required", 270, 480, { align: "center", size: 30, p: seg(p, 0.65, 0.85), seed: 148 });
+        note("I don't need to watch myself watching.", 270, 480, { align: "center", size: 30, p: seg(p, 0.65, 0.85), seed: 148 });
         title(this.t, p);
       } },
     { t: "First-personal character", l: "The seen body, felt posture, sense of agency and self-reference are admitted as they appear. A bearer behind them is neither affirmed nor denied.", d: 10,
       draw: function (T, p) {
         curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], { p: seg(p, 0, 0.2), color: C.body, seed: 150 });
-        note("one's posture, if felt", 270, 872, { align: "center", size: 24, dot: C.body, p: seg(p, 0.05, 0.2), seed: 151 });
+        note("my body leans", 270, 872, { align: "center", size: 24, dot: C.body, p: seg(p, 0.05, 0.2), seed: 151 });
         note("I am on my way", 30, 560, { size: 26, dot: C.self, p: seg(p, 0.15, 0.3), seed: 152 });
         ellipse(47, 560, 12, 16, { p: seg(p, 0.3, 0.42), color: RED, w: 3, seed: 153 });
-        note("“I” articulates; it does not establish an owner", 30, 610, { size: 22, p: seg(p, 0.35, 0.5), paper: "#FFE9E4", seed: 154 });
+        note("“I” doesn't prove someone stands apart.", 30, 610, { size: 22, p: seg(p, 0.35, 0.5), paper: "#FFE9E4", seed: 154 });
         var sq = seg(p, 0.5, 0.7);
         ellipse(270, 790, 38, 44, { p: sq, color: BLUE, dash: [7, 8], w: 3, seed: 155 });
         curve([[180, 900], [200, 860], [270, 850], [340, 860], [360, 900]], { p: sq, color: BLUE, dash: [7, 8], w: 3, seed: 156 });
         note("someone behind the eyes?", 270, 718, { align: "center", size: 26, p: seg(p, 0.65, 0.78), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 157 });
-        note("neither affirmed nor denied", 270, 672, { align: "center", size: 23, p: seg(p, 0.78, 0.9), paper: "#EAF1FD", color: "#35598F", seed: 158 });
+        note("I don't have to settle that here.", 270, 672, { align: "center", size: 23, p: seg(p, 0.78, 0.9), paper: "#EAF1FD", color: "#35598F", seed: 158 });
         title(this.t, p);
       } },
     { t: "Co-givenness", l: "The road, the hum, the lean and the thought, together. Togetherness is admitted where experienced; no separate unifier is added.", d: 8,
       draw: function (T, p) {
         waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2);
-        note("the road", 300, 470, { size: 25, dot: C.sight, seed: 160 }); note("a hum", 40, 610, { size: 25, dot: C.hear, seed: 161 });
-        note("the lean", 520, 400, { size: 25, dot: C.body, align: "right", seed: 162 }); note("how far now?", 250, 150, { size: 25, dot: C.think, seed: 163 });
+        note("the road", 300, 470, { size: 25, dot: C.sight, seed: 160 }); note("the sound", 40, 610, { size: 25, dot: C.hear, seed: 161 });
+        note("my body leaning", 520, 400, { size: 25, dot: C.body, align: "right", seed: 162 }); note("how far now?", 250, 150, { size: 25, dot: C.think, seed: 163 });
         curve([[230, 110], [420, 100], [520, 250], [510, 470], [400, 560], [200, 640], [30, 660], [20, 560], [140, 470], [200, 300], [230, 110]], { p: seg(p, 0.15, 0.7), w: 3.4, seed: 164 });
         note("together", 380, 620, { size: 32, p: seg(p, 0.7, 0.85), seed: 165 });
         title(this.t, p);
@@ -282,38 +282,38 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
         var q = seg(p, 0.05, 0.3);
         ctx.save(); ctx.globalAlpha = 0.9 * q; var g = ctx.createLinearGradient(40, 170, 40, 330); g.addColorStop(0, "#F6B783"); g.addColorStop(1, "#F8DDB0"); ctx.fillStyle = g; roughRect(40, 170, 200, 150, 170); ctx.restore();
         ellipse(140, 290, 30, 30, { a0: Math.PI, a1: Math.PI * 2, p: q, color: "#FFF4D6", seed: 171 });
-        note("the sunset, remembered", 40, 350, { size: 24, dot: C.mem, p: seg(p, 0.2, 0.35), seed: 172 });
+        note("I remember the sunset", 40, 350, { size: 24, dot: C.mem, p: seg(p, 0.2, 0.35), seed: 172 });
         curve([[215, 292], [250, 262], [300, 250], [340, 262]], { p: seg(p, 0.35, 0.55), color: C.mean, dash: [6, 7], seed: 173 });
-        note("the next bend, anticipated", 250, 222, { size: 24, dot: C.mean, p: seg(p, 0.45, 0.6), seed: 174 });
+        note("I expect another bend", 250, 222, { size: 24, dot: C.mean, p: seg(p, 0.45, 0.6), seed: 174 });
         var dur = v.duration || 22.6, now = (v.currentTime || 0) / dur;
         var lq = seg(p, 0.6, 0.8);
         line(40, 860, 500, 860, { p: lq, w: 3, seed: 175 });
         if (lq > 0.99) { line(40 + 460 * now, 840, 40 + 460 * now, 880, { w: 4, seed: 176 }); note("now", 40 + 460 * now, 900, { align: "center", size: 24, seed: 177 }); }
-        note("recollection", 40, 815, { size: 22, p: seg(p, 0.82, 0.95), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 178 });
-        note("anticipation", 500, 815, { align: "right", size: 22, p: seg(p, 0.82, 0.95), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 179 });
+        note("remembered", 40, 815, { size: 22, p: seg(p, 0.82, 0.95), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 178 });
+        note("expected", 500, 815, { align: "right", size: 22, p: seg(p, 0.82, 0.95), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 179 });
         title(this.t, p);
       } },
     { t: "Description and explanation", l: "Description articulates what appears and how. Explanations need their own argument or evidence; this method neither establishes nor rules them out.", d: 10,
       draw: function (T, p) {
         ctx.save(); ctx.globalAlpha = seg(p, 0, 0.1) * 0.94; ctx.fillStyle = "#FBF6EA"; roughRect(30, 120, 480, 300, 180); ctx.restore();
         ctx.save(); ctx.globalAlpha = seg(p, 0.35, 0.45) * 0.94; ctx.fillStyle = "#EEF3FB"; roughRect(30, 470, 480, 300, 181); ctx.restore();
-        ctx.save(); ctx.font = "600 28px Caveat, cursive"; ctx.textBaseline = "middle"; ctx.globalAlpha = seg(p, 0.05, 0.15); ctx.fillStyle = "#2A2724"; ctx.fillText("description", 50, 150); ctx.restore();
-        ["· the road, curving", "· a hum, rising and falling", "· the lean on the bend", "· the thought: how far now?"].forEach(function (s, i) {
+        ctx.save(); ctx.font = "600 28px Caveat, cursive"; ctx.textBaseline = "middle"; ctx.globalAlpha = seg(p, 0.05, 0.15); ctx.fillStyle = "#2A2724"; ctx.fillText("What I notice", 50, 150); ctx.restore();
+        ["· the road bends", "· the sound rises and falls", "· my body shifts", "· I wonder how far"].forEach(function (s, i) {
           var q = seg(p, 0.1 + i * 0.05, 0.2 + i * 0.05); if (q <= 0) return; ctx.save(); ctx.font = "25px Caveat, cursive"; ctx.textBaseline = "middle"; ctx.beginPath(); ctx.rect(50, 170 + i * 55, 440 * q, 55); ctx.clip(); ctx.fillStyle = "#2A2724"; ctx.fillText(s, 54, 200 + i * 55); ctx.restore(); });
         var rq = seg(p, 0.4, 0.6);
         path([[40, 480], [500, 476], [502, 760], [42, 764], [40, 480]], { p: rq, color: BLUE, dash: [8, 8], seed: 182 });
-        ctx.save(); ctx.globalAlpha = rq; ctx.font = "26px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textBaseline = "middle"; ctx.fillText("explanation (other inquiries)", 56, 510); ctx.restore();
+        ctx.save(); ctx.globalAlpha = rq; ctx.font = "26px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textBaseline = "middle"; ctx.fillText("What might explain it?", 56, 510); ctx.restore();
         var gq = seg(p, 0.5, 0.72);
         ellipse(170, 640, 50, 50, { p: gq, color: "#6B8FC4", seed: 183 }); ellipse(340, 640, 50, 50, { p: gq, color: "#6B8FC4", seed: 184 });
         line(100, 700, 420, 700, { p: gq, color: "#6B8FC4", seed: 185 });
         ctx.save(); ctx.globalAlpha = seg(p, 0.6, 0.75); ctx.font = "24px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textBaseline = "middle"; ctx.fillText("combustion, torque, friction", 110, 740); ctx.restore();
-        note("neither established nor ruled out here", 270, 820, { align: "center", size: 24, p: seg(p, 0.8, 0.95), seed: 186 });
+        note("That needs other evidence.", 270, 820, { align: "center", size: 24, p: seg(p, 0.8, 0.95), seed: 186 });
         title(this.t, p);
       } },
     { t: "The practical exercise", l: "Distinguish what is experienced from what is additionally endorsed. Pain and distress are admitted without diminution; any relief is contingent. A practice, not a promise.", d: 12,
       draw: function (T, p) {
         var lift = seg(p, 0.45, 0.8);
-        var stones = [["we'll be late, for certain", 270, 330], ["a self it all happens to", 270, 450], ["what they must be thinking", 270, 570]];
+        var stones = [["We'll definitely be late.", 270, 330], ["This feeling is who I am.", 270, 450], ["They must be judging me.", 270, 570]];
         stones.forEach(function (s, i) {
           var q = seg(p, 0.05 + i * 0.08, 0.2 + i * 0.08), y = s[2] - (1 - q) * 120 - lift * (380 + i * 60);
           ctx.save(); ctx.globalAlpha = q * (1 - seg(p, 0.6 + i * 0.05, 0.86 + i * 0.03));
@@ -322,13 +322,13 @@ document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',(
           ctx.font = "27px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(s[0], s[1], y);
           ctx.restore();
         });
-        if (p > 0.3 && p < 0.55) note("taken as established", 270, 220, { align: "center", size: 27, p: seg(p, 0.3, 0.42), paper: "#EAF1FD", color: "#35598F", seed: 196 });
+        if (p > 0.3 && p < 0.55) note("as if I knew for sure", 270, 220, { align: "center", size: 27, p: seg(p, 0.3, 0.42), paper: "#EAF1FD", color: "#35598F", seed: 196 });
         var aq = seg(p, 0.55, 0.7);
         path([[455, 820], [470, 840], [455, 860], [470, 880]], { p: aq, color: C.touch, w: 3.4, seed: 197 });
-        note("pain, if felt: admitted in full", 440, 840, { align: "right", size: 23, p: aq, dot: C.touch, seed: 198 });
-        note("the thought may remain", 270, 480, { align: "center", size: 25, p: seg(p, 0.78, 0.9), seed: 199 });
-        note("its assertion is left undecided", 270, 530, { align: "center", size: 25, p: seg(p, 0.86, 0.97), seed: 200 });
-        note("relief is not guaranteed", 270, 780, { align: "center", size: 24, p: seg(p, 0.86, 0.97), seed: 201 });
+        note("the ache stays", 440, 840, { align: "right", size: 23, p: aq, dot: C.touch, seed: 198 });
+        note("the thought is still here", 270, 480, { align: "center", size: 25, p: seg(p, 0.78, 0.9), seed: 199 });
+        note("I don't have to believe it", 270, 530, { align: "center", size: 25, p: seg(p, 0.86, 0.97), seed: 200 });
+        note("this may not make it easier", 270, 780, { align: "center", size: 24, p: seg(p, 0.86, 0.97), seed: 201 });
         title(this.t, p);
       } }
   ];
