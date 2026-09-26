@@ -8,18 +8,18 @@
 .ride-toggle svg{grid-area:1/1;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ride-toggle .ride-play-icon{fill:currentColor;stroke-width:1.3}
 .ride-toggle[data-playing=true] .ride-play-icon,.ride-toggle[data-playing=false] .ride-pause-icon{display:none}
-.ride-overlay figcaption{margin:.8rem 0 0;font-size:.94rem;font-style:italic;line-height:1.4;text-align:center;color:var(--muted)}
-@media(max-width:600px){.ride-overlay{margin:3rem auto}.ride-overlay figcaption{font-size:.88rem}}
+
+@media(max-width:600px){.ride-overlay{margin:3rem auto}}
 </style></head><body><figure class="ride-overlay" aria-label="An animated illustration over a recorded ride">
   <div class="ride-frame">
-    <video id="ride-video" muted playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider" aria-describedby="ride-context"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
+    <video id="ride-video" muted playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
     <canvas id="ride-canvas" aria-hidden="true"></canvas>
     <button id="ride-toggle" class="ride-toggle" type="button" aria-label="Play video and animation" aria-controls="ride-video" data-playing="false">
       <svg class="ride-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
       <svg class="ride-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7Z"/></svg>
     </button>
   </div>
-  <figcaption id="ride-context">The drawn sensations and thoughts are examples.</figcaption>
+
 </figure><script>
 (function () {
   "use strict";
