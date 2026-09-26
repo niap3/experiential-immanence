@@ -10,7 +10,7 @@
 .ride-toggle[data-playing=true] .ride-play-icon,.ride-toggle[data-playing=false] .ride-pause-icon{display:none}
 
 @media(max-width:600px){.ride-overlay{margin:3rem auto}}
-</style></head><body><figure class="ride-overlay" aria-label="An animated illustration over a recorded ride">
+</style></head><body><figure class="ride-overlay" aria-label="A recorded ride with handwritten notes for experiences that appear and fade">
   <div class="ride-frame">
     <video id="ride-video" muted playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
     <canvas id="ride-canvas" aria-hidden="true"></canvas>
@@ -23,336 +23,212 @@
 </figure><script>
 (function () {
   "use strict";
-  var v = document.getElementById("ride-video"), cv = document.getElementById("ride-canvas"), ctx = cv.getContext("2d");
-  var VW = 540, VH = 960, dpr = 1, sc = 1;
-  var CHALK = "#FFF8EA", HALO = "rgba(30,24,18,.55)", BLUE = "#A9CBFF", RED = "#FF9B8A";
-  var C = { sight: "#CFEFA8", hear: "#9FE3EE", touch: "#FFB8A8", warm: "#FFCF8A", body: "#D8C8FF", mood: "#C5D3F2", mem: "#FFD89A", think: "#F7B6DF", self: "#EDEDED", mean: "#FFF1C9" };
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  // ---------- chalk-on-video primitives ----------
-  var boil = 0, seedN = 1;
-  function hash(a, b) { var h = Math.sin(a * 127.1 + b * 311.7 + boil * 74.7) * 43758.5453; return h - Math.floor(h); }
-  function jt(a, b, amt) { return (hash(a, b) - 0.5) * 2 * amt; }
-  function stroke1(x1, y1, x2, y2, col, w, rough, s, k, dash) {
-    var ax = x1 + jt(s, k * 3 + 1, rough), ay = y1 + jt(s, k * 3 + 2, rough), bx = x2 + jt(s, k * 3 + 5, rough), by = y2 + jt(s, k * 3 + 6, rough);
-    var mx = (ax + bx) / 2 + jt(s, k * 7 + 9, rough * 1.6), my = (ay + by) / 2 + jt(s, k * 7 + 11, rough * 1.6);
-    ctx.strokeStyle = col; ctx.lineWidth = w; ctx.setLineDash(dash || []); ctx.beginPath(); ctx.moveTo(ax, ay); ctx.quadraticCurveTo(mx, my, bx, by); ctx.stroke();
-  }
-  function line(x1, y1, x2, y2, o) {
-    o = o || {}; var p = o.p === undefined ? 1 : o.p; if (p <= 0) return;
-    var s = o.seed || (seedN++), w = o.w || 2.6, r = o.rough === undefined ? 1.6 : o.rough, col = o.color || CHALK;
-    var ex = x1 + (x2 - x1) * p, ey = y1 + (y2 - y1) * p;
-    ctx.save(); ctx.lineCap = "round"; ctx.globalAlpha *= (o.a === undefined ? 1 : o.a);
-    stroke1(x1, y1, ex, ey, HALO, w + 3, r, s, 0, o.dash);
-    stroke1(x1, y1, ex, ey, col, w, r, s, 0, o.dash);
-    ctx.globalAlpha *= 0.55; stroke1(x1, y1, ex, ey, col, w * 0.6, r, s, 1, o.dash);
+  var video = document.getElementById("ride-video");
+  var canvas = document.getElementById("ride-canvas");
+  var toggle = document.getElementById("ride-toggle");
+  var ctx = canvas.getContext("2d");
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var W = 540, H = 960;
+  var ink = "#fff8ea", shadow = "rgba(26,22,18,.62)";
+  var colors = {
+    sight: "#d6efb2", sound: "#9fe3ee", touch: "#ffcfb8",
+    body: "#d8c8ff", thought: "#f7b6df", memory: "#ffdaa0",
+    expectation: "#fff1c9", feeling: "#cbd8f1"
+  };
+  var time = reducedMotion.matches ? 11 : 0;
+  var playing = false, manualPaused = false, visible = false;
+  var frame = 0, requestId = 0, scale = 1, ratio = 1;
+
+  function clamp(n) { return Math.max(0, Math.min(1, n)); }
+  function ease(n) { n = clamp(n); return n * n * (3 - 2 * n); }
+  function jitter(seed, offset) { return Math.sin(seed * 38.31 + offset * 91.7) * 1.4; }
+
+  function stroke(points, color, width, reveal, dashed, seed) {
+    if (reveal <= 0) return;
+    var length = 0, lengths = [];
+    for (var i = 1; i < points.length; i++) {
+      var d = Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]);
+      lengths.push(d); length += d;
+    }
+    var remaining = length * reveal;
+    ctx.save(); ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.setLineDash(dashed ? [7, 8] : []);
+    for (var k = 1; k < points.length && remaining > 0; k++) {
+      var part = Math.min(1, remaining / lengths[k - 1]);
+      remaining -= lengths[k - 1];
+      var a = points[k - 1], b = points[k];
+      var x = a[0] + (b[0] - a[0]) * part;
+      var y = a[1] + (b[1] - a[1]) * part;
+      for (var pass = 0; pass < 2; pass++) {
+        ctx.beginPath();
+        ctx.moveTo(a[0] + jitter(seed + k, 1), a[1] + jitter(seed + k, 2));
+        ctx.quadraticCurveTo((a[0] + x) / 2 + jitter(seed + k, 3), (a[1] + y) / 2 + jitter(seed + k, 4), x + jitter(seed + k, 5), y + jitter(seed + k, 6));
+        ctx.strokeStyle = pass ? color : shadow;
+        ctx.lineWidth = pass ? width : width + 3;
+        ctx.stroke();
+      }
+    }
     ctx.restore();
   }
-  function path(pts, o) {
-    o = o || {}; var p = o.p === undefined ? 1 : o.p; if (p <= 0 || pts.length < 2) return;
-    var tot = 0, L = []; for (var i = 1; i < pts.length; i++) { var d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); L.push(d); tot += d; }
-    var left = tot * p, s0 = o.seed || (seedN += 13);
-    for (var k = 1; k < pts.length && left > 0; k++) { var f = Math.min(1, left / L[k - 1]); left -= L[k - 1]; line(pts[k - 1][0], pts[k - 1][1], pts[k][0], pts[k][1], Object.assign({}, o, { p: f, seed: s0 + k })); }
-  }
-  function curvePts(pts) {
-    var out = [];
-    for (var i = 0; i < pts.length - 1; i++) {
-      var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
-      for (var t = 0; t < 1; t += 0.1) { var t2 = t * t, t3 = t2 * t;
-        out.push([0.5 * (2 * p1[0] + (-p0[0] + p2[0]) * t + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * t2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * t3),
-                  0.5 * (2 * p1[1] + (-p0[1] + p2[1]) * t + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * t2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * t3)]); }
+
+  function curve(points, color, reveal, dashed, seed) {
+    var smooth = [];
+    for (var i = 0; i < points.length - 1; i++) {
+      var a = points[Math.max(0, i - 1)], b = points[i];
+      var c = points[i + 1], d = points[Math.min(points.length - 1, i + 2)];
+      for (var t = 0; t < 1; t += .1) {
+        var t2 = t * t, t3 = t2 * t;
+        smooth.push([
+          .5 * (2*b[0] + (-a[0]+c[0])*t + (2*a[0]-5*b[0]+4*c[0]-d[0])*t2 + (-a[0]+3*b[0]-3*c[0]+d[0])*t3),
+          .5 * (2*b[1] + (-a[1]+c[1])*t + (2*a[1]-5*b[1]+4*c[1]-d[1])*t2 + (-a[1]+3*b[1]-3*c[1]+d[1])*t3)
+        ]);
+      }
     }
-    out.push(pts[pts.length - 1]); return out;
+    smooth.push(points[points.length - 1]);
+    stroke(smooth, color, 2.5, reveal, dashed, seed);
   }
-  function curve(pts, o) { path(curvePts(pts), Object.assign({ rough: 1.1 }, o)); }
-  function ellipse(cx, cy, rx, ry, o) { var pts = []; var a0 = (o && o.a0) || 0, a1 = (o && o.a1 !== undefined) ? o.a1 : Math.PI * 2 + 0.25; for (var i = 0; i <= 36; i++) { var a = a0 + (a1 - a0) * i / 36; pts.push([cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]); } path(pts, Object.assign({ rough: 1.2 }, o)); }
-  function cloud(cx, cy, w, h, o) { var pts = []; for (var i = 0; i <= 36; i++) { var a = i / 36 * Math.PI * 2, b = 1 + 0.12 * Math.abs(Math.sin(a * 4.5)); pts.push([cx + Math.cos(a) * w / 2 * b, cy + Math.sin(a) * h / 2 * b]); } path(pts, Object.assign({ rough: 1 }, o)); }
-  function arrow(x1, y1, x2, y2, o) { o = o || {}; line(x1, y1, x2, y2, o); if ((o.p === undefined ? 1 : o.p) < 1) return; var a = Math.atan2(y2 - y1, x2 - x1); line(x2, y2, x2 - Math.cos(a - 0.45) * 14, y2 - Math.sin(a - 0.45) * 14, Object.assign({}, o, { dash: null })); line(x2, y2, x2 - Math.cos(a + 0.45) * 14, y2 - Math.sin(a + 0.45) * 14, Object.assign({}, o, { dash: null })); }
-  // a torn paper note with handwriting
-  function note(txt, x, y, o) {
-    o = o || {}; var p = o.p === undefined ? 1 : o.p; if (p <= 0) return 0;
-    ctx.save(); var size = o.size || 27, padX = 9, dotSpace = o.dot ? 9 : 0;
-    function font() { ctx.font = (o.bold ? "600 " : "") + size + "px Caveat, 'Comic Sans MS', cursive"; }
-    font(); var w = ctx.measureText(txt).width + dotSpace;
-    if (w + padX * 2 > VW - 32) { size *= (VW - 50 - dotSpace) / Math.max(1, w); font(); w = ctx.measureText(txt).width + dotSpace; }
-    var h = size * 1.25, bw = w + padX * 2;
-    var bx = o.align === "right" ? x - bw : o.align === "center" ? x - bw / 2 : x;
-    bx = Math.max(12, Math.min(VW - 12 - bw, bx));
-    y = Math.max(h / 2 + 8, Math.min(VH - h / 2 - 10, y));
-    ctx.globalAlpha *= Math.min(1, p * 1.5);
-    ctx.translate(bx, y); ctx.rotate(jt(o.seed || x + y, 3, 0.012) + (o.rot || 0));
-    ctx.fillStyle = "rgba(0,0,0,.25)"; roughRect(3, -h / 2 + 3, bw, h, o.seed || 1);
-    ctx.fillStyle = o.paper || "#FBF6EA"; roughRect(0, -h / 2, bw, h, (o.seed || 1) + 7);
-    if (o.dashed) { ctx.strokeStyle = "#35598F"; ctx.lineWidth = 1.5; ctx.setLineDash([5,5]); ctx.strokeRect(2,-h/2+2,bw-4,h-4); ctx.setLineDash([]); }
-    if (o.dot) { ctx.fillStyle=o.dot; ctx.beginPath(); ctx.arc(padX-1,0,4.5,0,Math.PI*2); ctx.fill(); }
-    ctx.fillStyle=o.color || "#2A2724"; ctx.textBaseline="middle";
-    ctx.beginPath(); ctx.rect(0,-h,bw*Math.min(1,p*1.2),h*2); ctx.clip(); ctx.fillText(txt,padX+dotSpace,1);
-    ctx.restore(); return bw;
+
+  function note(text, x, y, options, reveal) {
+    if (reveal <= 0) return;
+    var size = options.size || 27;
+    ctx.save();
+    ctx.font = size + "px Caveat, 'Comic Sans MS', cursive";
+    var width = ctx.measureText(text).width;
+    if (width > W - 54) {
+      size *= (W - 54) / width;
+      ctx.font = size + "px Caveat, 'Comic Sans MS', cursive";
+      width = ctx.measureText(text).width;
+    }
+    var boxWidth = width + 19, boxHeight = size * 1.3;
+    var left = options.align === "right" ? x - boxWidth : options.align === "center" ? x - boxWidth / 2 : x;
+    left = Math.max(12, Math.min(W - boxWidth - 12, left));
+    var top = Math.max(10, Math.min(H - boxHeight - 10, y - boxHeight / 2));
+    ctx.translate(left, top);
+    ctx.rotate(jitter(options.seed || x + y, 8) * .006);
+    ctx.fillStyle = "rgba(0,0,0,.25)";
+    ctx.fillRect(3, 3, boxWidth, boxHeight);
+    ctx.fillStyle = "#fbf6ea";
+    ctx.fillRect(0, 0, boxWidth, boxHeight);
+    ctx.beginPath(); ctx.rect(0, 0, boxWidth * reveal, boxHeight); ctx.clip();
+    ctx.fillStyle = "#2a2724"; ctx.textBaseline = "middle";
+    ctx.fillText(text, 9, boxHeight / 2 + 1);
+    ctx.restore();
   }
-  function roughRect(x, y, w, h, s) {
-    ctx.beginPath(); ctx.moveTo(x + jt(s, 1, 2), y + jt(s, 2, 2));
-    ctx.lineTo(x + w + jt(s, 3, 2), y + jt(s, 4, 2)); ctx.lineTo(x + w + jt(s, 5, 2), y + h + jt(s, 6, 2)); ctx.lineTo(x + jt(s, 7, 2), y + h + jt(s, 8, 2)); ctx.closePath(); ctx.fill();
+
+  function mark(start, end, text, x, y, color, options, drawing) {
+    if (time <= start || time >= end) return;
+    var appear = ease((time - start) / .8);
+    var fade = ease((end - time) / 1.3);
+    ctx.save(); ctx.globalAlpha *= fade;
+    if (drawing) drawing(appear);
+    note(text, x, y, options || {}, appear);
+    ctx.restore();
   }
-  function glow(cx, cy, r, col, a) { var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, col); g.addColorStop(1, "rgba(0,0,0,0)"); ctx.save(); ctx.globalAlpha *= a; ctx.fillStyle = g; ctx.fillRect(cx - r, cy - r, r * 2, r * 2); ctx.restore(); }
-  var ease = function (x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
-  function seg(p, a, b) { return ease((p - a) / (b - a)); }
-  function waves(cx, cy, col, t, dir) { for (var k = 0; k < 3; k++) { var r = 18 + k * 16 + ((t * 30) % 16); ctx.save(); ctx.globalAlpha = 0.9 - k * 0.25; ellipse(cx, cy, r, r * 0.8, { a0: dir - 0.9, a1: dir + 0.9, color: col, w: 2.4, seed: 50 + k }); ctx.restore(); } }
 
-  // anchors in the 540 x 960 frame, taken from the ride once the rider is in view
-  var A = { road: [330, 420], vp: [215, 292], sky: [300, 110], trees: [450, 210], helmet: [80, 440], mirror: [435, 600], dash: [165, 680], grip: [385, 745], top: [190, 880], bottom: [270, 955] };
-
-  function title(txt, p) { note(txt, 16, 36, { size: txt.length > 30 ? 24 : txt.length > 22 ? 27 : 30, bold: true, p: seg(p, 0, 0.1), seed: 900 }); }
-
-  var SCENES = [
-    { t: "Appearing", l: "Whatever is encountered is encountered in appearing. Even the attempt to contest it is an experience.", d: 7,
-      draw: function (T, p) {
-        var q = seg(p, 0.05, 0.6);
-        path([[18, 90], [522, 84], [528, 940], [14, 946], [18, 90]], { p: q, w: 3, seed: 10 });
-        note("The road comes into view.", 270, 480, { align: "center", size: 30, p: seg(p, 0.5, 0.75), seed: 20 });
-        note("A thought comes with it.", 270, 530, { align: "center", size: 30, p: seg(p, 0.65, 0.9), seed: 21 });
-        title(this.t, p);
-      } },
-    { t: "Modes of givenness", l: "The road is seen. Sound is heard. The next turn may be anticipated. One's own posture may be felt. Each is admitted in its own manner.", d: 11,
-      draw: function (T, p) {
-        var items = [
-          [function (q) { curve([[250, 330], [300, 400], [360, 520]], { p: q, color: C.sight, seed: 30 }); }, "the road ahead", 300, 470, C.sight, "left"],
-          [function (q) { if (q > 0) waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2); }, "sound", 30, 610, C.hear, "left"],
-          [function (q) { curve([[215, 292], [250, 262], [300, 250], [340, 262]], { p: q, color: C.mean, dash: [6, 7], seed: 31 }); }, "I expect another turn", 250, 222, C.mean, "left"],
-          [function (q) { curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], { p: q, color: C.body, seed: 32 }); }, "my body leans", 270, 872, C.body, "center"],
-          [function (q) { if (q > 0) glow(A.grip[0], A.grip[1], 70, "rgba(255,184,168,.9)", 0.5 * q); }, "wind on my skin", 520, 700, C.touch, "right"],
-          [function (q) { ellipse(A.mirror[0], A.mirror[1], 60, 58, { p: q, color: C.sight, seed: 33 }); }, "the mirror", 520, 520, C.sight, "right"],
-          [function (q) {}, "the white helmet", 20, 330, C.self, "left"],
-          [function (q) {}, "the sway of the ride", 520, 400, C.body, "right"],
-          [function (q) {}, "a passing calm", 270, 160, C.mood, "center"],
-          [function (q) { cloud(390, 108, 230, 62, { p: q, color: C.think, seed: 34 }); }, "how far is it now?", 390, 108, C.think, "center"]
-        ];
-        items.forEach(function (it, i) {
-          var q = seg(p, 0.05 + i * 0.075, 0.18 + i * 0.075);
-          it[0](q); note(it[1], it[2], it[3], { p: q, size: 24, align: it[5], dot: it[4], seed: 40 + i });
-        });
-        title(this.t, p);
-      } },
-    { t: "Phenomenal parity", l: "No order of precedence. There is no pure sensory stratum beneath meaning and thought; all are co-given in one lived situation.", d: 8,
-      draw: function (T, p) {
-        var a = 1 - seg(p, 0.55, 0.78);
-        if (a > 0) {
-          ctx.save(); ctx.globalAlpha = a;
-          ["thought", "concepts", "sensation"].forEach(function (nm, i) { var y = 300 + i * 150, q = seg(p, 0.02 + i * 0.08, 0.2 + i * 0.08);
-            path([[70, y], [330, y - 60], [480, y + 10], [220, y + 70], [70, y]], { p: q, seed: 60 + i }); note(nm, 270, y + 5, { align: "center", size: 27, p: q, seed: 70 + i }); });
-          line(60, 250, 490, 720, { p: seg(p, 0.32, 0.46), color: RED, w: 4, seed: 80 }); line(490, 250, 60, 720, { p: seg(p, 0.4, 0.52), color: RED, w: 4, seed: 81 });
-          note("not stacked like this", 270, 780, { align: "center", size: 30, p: seg(p, 0.45, 0.55), paper: "#FFE9E4", seed: 82 });
-          ctx.restore();
-        }
-        note("one lived situation", 270, 480, { align: "center", size: 32, p: seg(p, 0.75, 0.92), seed: 83 });
-        title(this.t, p);
-      } },
-    { t: "Epoché", l: "The thought is admitted as experience. What it asserts is not thereby established: assent is suspended within this inquiry.", d: 9,
-      draw: function (T, p) {
-        waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2);
-        note("the sound", 30, 610, { size: 24, dot: C.hear, p: seg(p, 0, 0.12), seed: 90 });
-        var q = seg(p, 0.1, 0.3);
-        cloud(290, 330, 420, 110, { p: q, color: C.think, w: 3, seed: 91 });
-        var w = note("The engine makes that sound.", 290, 330, { align: "center", size: 30, p: seg(p, 0.2, 0.42), seed: 92 }) || 330;
-        var bq = seg(p, 0.5, 0.64), L = 290 - w / 2 - 14, R = 290 + w / 2 + 14;
-        path([[L + 12, 300], [L, 300], [L, 360], [L + 12, 360]], { p: bq, w: 4, seed: 93 }); path([[R - 12, 300], [R, 300], [R, 360], [R - 12, 360]], { p: bq, w: 4, seed: 94 });
-        note("That thought is here.", 90, 430, { size: 26, p: seg(p, 0.66, 0.78), seed: 95 });
-        note("I can leave it open.", 90, 475, { size: 26, p: seg(p, 0.76, 0.9), paper: "#EAF1FD", color: "#35598F", seed: 96 });
-        title(this.t, p);
-      } },
-    { t: "Immanent and transcendent", l: "Delete from the description, not from experience. If the description breaks, the item was immanent; if every appearing stays described, it was a transcendent commitment.", d: 12,
-      draw: function (T, p) {
-        ctx.save(); ctx.globalAlpha = seg(p, 0, 0.08) * 0.93; ctx.fillStyle = "#FBF6EA"; roughRect(40, 130, 460, 360, 100); ctx.restore();
-        note("What I can describe", 60, 165, { size: 28, bold: true, p: seg(p, 0.03, 0.1), paper: "rgba(0,0,0,0)", seed: 101 });
-        var lines = [["· the sound rises and falls", "#2A2724"], ["· I think the engine causes it", "#9A3E78"], ["· the engine causes it", "#35598F"]];
-        ctx.save(); ctx.font = "26px Caveat, cursive"; ctx.textBaseline = "middle";
-        lines.forEach(function (ln, i) { var q = seg(p, 0.08 + i * 0.05, 0.16 + i * 0.05); if (q <= 0) return; ctx.save(); ctx.beginPath(); ctx.rect(60, 190 + i * 50, 420 * q, 50); ctx.clip(); ctx.fillStyle = ln[1]; ctx.fillText(ln[0], 64, 215 + i * 50); ctx.restore(); });
-        ctx.restore();
-        var gone = seg(p, 0.4, 0.48);
-        if (seg(p, 0.3, 0.42) > 0 && p < 0.5) line(64, 315, 64 + 330 * seg(p, 0.3, 0.42), 315, { color: RED, w: 5, seed: 110 });
-        if (gone > 0) { ctx.save(); ctx.globalAlpha = gone; ctx.fillStyle = "#FBF6EA"; ctx.fillRect(58, 292, 430, 46); ctx.restore(); }
-        ctx.save(); ctx.font = "25px Caveat, cursive"; ctx.textBaseline = "middle";
-        if (p > 0.5) { ctx.fillStyle = "#3E7A2C"; ctx.fillText("The sound and thought remain.", 64, 380); }
-        if (p > 0.72 && p < 0.9) { line(64, 215, 64 + 300 * seg(p, 0.72, 0.8), 215, { color: RED, w: 5, seed: 111 }); ctx.fillStyle = "#B24A3A"; ctx.fillText("Now the sound is missing.", 64, 425); }
-        if (p >= 0.9) { ctx.fillStyle = "#2A2724"; ctx.fillText("Without that line, something is lost.", 64, 425); }
-        ctx.restore();
-        var wq = seg(p, 0.45, 0.62);
-        ellipse(160, 700, 42, 42, { p: wq, color: BLUE, dash: [7, 7], seed: 120 }); ellipse(160, 700, 14, 14, { p: wq, color: BLUE, dash: [5, 6], seed: 121 });
-        path([[110, 640], [230, 640], [230, 760], [110, 760], [110, 640]], { p: wq, color: BLUE, dash: [7, 7], seed: 122 });
-        note("the engine?", 250, 700, { size: 26, p: wq, paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 123 });
-        title(this.t, p);
-      } },
-    { t: "Intentionality and horizon", l: "The road ahead is seen; its continuation beyond the bend is given as anticipated, not as seen. Being about something does not establish its referent.", d: 9,
-      draw: function (T, p) {
-        curve([[330, 520], [270, 380], [215, 292]], { p: seg(p, 0.05, 0.3), color: C.sight, w: 3.2, seed: 130 });
-        note("the road in front of me", 300, 470, { size: 25, dot: C.sight, p: seg(p, 0.2, 0.35), seed: 131 });
-        curve([[215, 292], [240, 262], [300, 245], [380, 240], [470, 250]], { p: seg(p, 0.35, 0.65), color: BLUE, dash: [7, 8], w: 3, seed: 132 });
-        note("I expect the road to continue", 270, 200, { align: "center", size: 25, p: seg(p, 0.55, 0.72), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 133 });
-        note("I can think past what I see.", 270, 560, { align: "center", size: 23, p: seg(p, 0.75, 0.92), seed: 134 });
-        title(this.t, p);
-      } },
-    { t: "Pre-reflective self-manifestation", l: "The ride is lived without a second act observing it. Reflection is a further mode of experience, not a hidden watcher.", d: 8,
-      draw: function (T, p) {
-        var q = seg(p, 0.08, 0.3), ey = 150 + 30 * q;
-        ctx.save(); ctx.globalAlpha = 1 - seg(p, 0.78, 0.96);
-        path([[210, ey], [270, ey - 26], [330, ey], [270, ey + 26], [210, ey]], { p: q, w: 3, seed: 140 }); ellipse(270, ey, 13, 13, { p: q, seed: 141 });
-        for (var i = 0; i < 3; i++) line(240 + i * 30, ey + 34, 160 + i * 110, ey + 170, { p: seg(p, 0.3, 0.45), dash: [5, 8], w: 1.8, seed: 142 + i });
-        note("another watcher?", 350, ey, { size: 26, p: seg(p, 0.3, 0.45), seed: 146 });
-        line(190, ey - 40, 350, ey + 40, { p: seg(p, 0.5, 0.62), color: RED, w: 4.5, seed: 147 });
-        ctx.restore();
-        note("I don't need to watch myself watching.", 270, 480, { align: "center", size: 30, p: seg(p, 0.65, 0.85), seed: 148 });
-        title(this.t, p);
-      } },
-    { t: "First-personal character", l: "The seen body, felt posture, sense of agency and self-reference are admitted as they appear. A bearer behind them is neither affirmed nor denied.", d: 10,
-      draw: function (T, p) {
-        curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], { p: seg(p, 0, 0.2), color: C.body, seed: 150 });
-        note("my body leans", 270, 872, { align: "center", size: 24, dot: C.body, p: seg(p, 0.05, 0.2), seed: 151 });
-        note("I am on my way", 30, 560, { size: 26, dot: C.self, p: seg(p, 0.15, 0.3), seed: 152 });
-        ellipse(47, 560, 12, 16, { p: seg(p, 0.3, 0.42), color: RED, w: 3, seed: 153 });
-        note("“I” doesn't prove someone stands apart.", 30, 610, { size: 22, p: seg(p, 0.35, 0.5), paper: "#FFE9E4", seed: 154 });
-        var sq = seg(p, 0.5, 0.7);
-        ellipse(270, 790, 38, 44, { p: sq, color: BLUE, dash: [7, 8], w: 3, seed: 155 });
-        curve([[180, 900], [200, 860], [270, 850], [340, 860], [360, 900]], { p: sq, color: BLUE, dash: [7, 8], w: 3, seed: 156 });
-        note("someone behind the eyes?", 270, 718, { align: "center", size: 26, p: seg(p, 0.65, 0.78), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 157 });
-        note("I don't have to settle that here.", 270, 672, { align: "center", size: 23, p: seg(p, 0.78, 0.9), paper: "#EAF1FD", color: "#35598F", seed: 158 });
-        title(this.t, p);
-      } },
-    { t: "Co-givenness", l: "The road, the hum, the lean and the thought, together. Togetherness is admitted where experienced; no separate unifier is added.", d: 8,
-      draw: function (T, p) {
-        waves(A.dash[0] + 40, A.dash[1] - 30, C.hear, T, -Math.PI / 2);
-        note("the road", 300, 470, { size: 25, dot: C.sight, seed: 160 }); note("the sound", 40, 610, { size: 25, dot: C.hear, seed: 161 });
-        note("my body leaning", 520, 400, { size: 25, dot: C.body, align: "right", seed: 162 }); note("how far now?", 250, 150, { size: 25, dot: C.think, seed: 163 });
-        curve([[230, 110], [420, 100], [520, 250], [510, 470], [400, 560], [200, 640], [30, 660], [20, 560], [140, 470], [200, 300], [230, 110]], { p: seg(p, 0.15, 0.7), w: 3.4, seed: 164 });
-        note("together", 380, 620, { size: 32, p: seg(p, 0.7, 0.85), seed: 165 });
-        title(this.t, p);
-      } },
-    { t: "Phenomenal temporality", l: "The sunset a moment ago, remembered as remembered; the next bend, anticipated as anticipated. A recollection's occurring does not settle its accuracy.", d: 10,
-      draw: function (T, p) {
-        var q = seg(p, 0.05, 0.3);
-        ctx.save(); ctx.globalAlpha = 0.9 * q; var g = ctx.createLinearGradient(40, 170, 40, 330); g.addColorStop(0, "#F6B783"); g.addColorStop(1, "#F8DDB0"); ctx.fillStyle = g; roughRect(40, 170, 200, 150, 170); ctx.restore();
-        ellipse(140, 290, 30, 30, { a0: Math.PI, a1: Math.PI * 2, p: q, color: "#FFF4D6", seed: 171 });
-        note("I remember the sunset", 40, 350, { size: 24, dot: C.mem, p: seg(p, 0.2, 0.35), seed: 172 });
-        curve([[215, 292], [250, 262], [300, 250], [340, 262]], { p: seg(p, 0.35, 0.55), color: C.mean, dash: [6, 7], seed: 173 });
-        note("I expect another bend", 250, 222, { size: 24, dot: C.mean, p: seg(p, 0.45, 0.6), seed: 174 });
-        var dur = v.duration || 22.6, now = (v.currentTime || 0) / dur;
-        var lq = seg(p, 0.6, 0.8);
-        line(40, 860, 500, 860, { p: lq, w: 3, seed: 175 });
-        if (lq > 0.99) { line(40 + 460 * now, 840, 40 + 460 * now, 880, { w: 4, seed: 176 }); note("now", 40 + 460 * now, 900, { align: "center", size: 24, seed: 177 }); }
-        note("remembered", 40, 815, { size: 22, p: seg(p, 0.82, 0.95), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 178 });
-        note("expected", 500, 815, { align: "right", size: 22, p: seg(p, 0.82, 0.95), paper: "#EAF1FD", color: "#35598F", dashed: true, seed: 179 });
-        title(this.t, p);
-      } },
-    { t: "Description and explanation", l: "Description articulates what appears and how. Explanations need their own argument or evidence; this method neither establishes nor rules them out.", d: 10,
-      draw: function (T, p) {
-        ctx.save(); ctx.globalAlpha = seg(p, 0, 0.1) * 0.94; ctx.fillStyle = "#FBF6EA"; roughRect(30, 120, 480, 300, 180); ctx.restore();
-        ctx.save(); ctx.globalAlpha = seg(p, 0.35, 0.45) * 0.94; ctx.fillStyle = "#EEF3FB"; roughRect(30, 470, 480, 300, 181); ctx.restore();
-        ctx.save(); ctx.font = "600 28px Caveat, cursive"; ctx.textBaseline = "middle"; ctx.globalAlpha = seg(p, 0.05, 0.15); ctx.fillStyle = "#2A2724"; ctx.fillText("What I notice", 50, 150); ctx.restore();
-        ["· the road bends", "· the sound rises and falls", "· my body shifts", "· I wonder how far"].forEach(function (s, i) {
-          var q = seg(p, 0.1 + i * 0.05, 0.2 + i * 0.05); if (q <= 0) return; ctx.save(); ctx.font = "25px Caveat, cursive"; ctx.textBaseline = "middle"; ctx.beginPath(); ctx.rect(50, 170 + i * 55, 440 * q, 55); ctx.clip(); ctx.fillStyle = "#2A2724"; ctx.fillText(s, 54, 200 + i * 55); ctx.restore(); });
-        var rq = seg(p, 0.4, 0.6);
-        path([[40, 480], [500, 476], [502, 760], [42, 764], [40, 480]], { p: rq, color: BLUE, dash: [8, 8], seed: 182 });
-        ctx.save(); ctx.globalAlpha = rq; ctx.font = "26px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textBaseline = "middle"; ctx.fillText("What might explain it?", 56, 510); ctx.restore();
-        var gq = seg(p, 0.5, 0.72);
-        ellipse(170, 640, 50, 50, { p: gq, color: "#6B8FC4", seed: 183 }); ellipse(340, 640, 50, 50, { p: gq, color: "#6B8FC4", seed: 184 });
-        line(100, 700, 420, 700, { p: gq, color: "#6B8FC4", seed: 185 });
-        ctx.save(); ctx.globalAlpha = seg(p, 0.6, 0.75); ctx.font = "24px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textBaseline = "middle"; ctx.fillText("combustion, torque, friction", 110, 740); ctx.restore();
-        note("That needs other evidence.", 270, 820, { align: "center", size: 24, p: seg(p, 0.8, 0.95), seed: 186 });
-        title(this.t, p);
-      } },
-    { t: "The practical exercise", l: "Distinguish what is experienced from what is additionally endorsed. Pain and distress are admitted without diminution; any relief is contingent. A practice, not a promise.", d: 12,
-      draw: function (T, p) {
-        var lift = seg(p, 0.45, 0.8);
-        var stones = [["We'll definitely be late.", 270, 330], ["This feeling is who I am.", 270, 450], ["They must be judging me.", 270, 570]];
-        stones.forEach(function (s, i) {
-          var q = seg(p, 0.05 + i * 0.08, 0.2 + i * 0.08), y = s[2] - (1 - q) * 120 - lift * (380 + i * 60);
-          ctx.save(); ctx.globalAlpha = q * (1 - seg(p, 0.6 + i * 0.05, 0.86 + i * 0.03));
-          ctx.fillStyle = "#EDE6DA"; ctx.beginPath(); ctx.ellipse(s[1], y, 190, 44, 0, 0, Math.PI * 2); ctx.fill();
-          ellipse(s[1], y, 190, 44, { color: "#6D665E", w: 2.4, seed: 190 + i });
-          ctx.font = "27px Caveat, cursive"; ctx.fillStyle = "#35598F"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(s[0], s[1], y);
-          ctx.restore();
-        });
-        if (p > 0.3 && p < 0.55) note("as if I knew for sure", 270, 220, { align: "center", size: 27, p: seg(p, 0.3, 0.42), paper: "#EAF1FD", color: "#35598F", seed: 196 });
-        var aq = seg(p, 0.55, 0.7);
-        path([[455, 820], [470, 840], [455, 860], [470, 880]], { p: aq, color: C.touch, w: 3.4, seed: 197 });
-        note("the ache stays", 440, 840, { align: "right", size: 23, p: aq, dot: C.touch, seed: 198 });
-        note("the thought is still here", 270, 480, { align: "center", size: 25, p: seg(p, 0.78, 0.9), seed: 199 });
-        note("I don't have to believe it", 270, 530, { align: "center", size: 25, p: seg(p, 0.86, 0.97), seed: 200 });
-        note("this may not make it easier", 270, 780, { align: "center", size: 24, p: seg(p, 0.86, 0.97), seed: 201 });
-        title(this.t, p);
-      } }
-  ];
-
-  // A single control pauses both the footage and the drawing.
-  var idx = reduce.matches ? 8 : 0, local = reduce.matches ? SCENES[8].d : 0;
-  var playing = false, manualPaused = false, visible = false, last = 0, lastBoil = 0, T = 0, raf = 0, requestId = 0;
-  var playBtn = document.getElementById('ride-toggle');
   function draw() {
-    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
-    ctx.setTransform(dpr * sc, 0, 0, dpr * sc, 0, 0); seedN = 1;
-    var s = SCENES[idx]; s.draw.call(s, T, Math.min(1, local / s.d));
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.setTransform(ratio * scale, 0, 0, ratio * scale, 0, 0);
+
+    mark(4.2, 21.3, "the road ahead", 300, 470, colors.sight, { seed: 11 }, function (p) {
+      curve([[250, 330], [300, 400], [360, 520]], colors.sight, p, false, 11);
+    });
+    mark(1.6, 9.2, "light in the sky", 265, 130, colors.sight, { align: "center", seed: 12 });
+    mark(2.7, 19.8, "sound", 30, 610, colors.sound, { seed: 13 }, function (p) {
+      for (var i = 0; i < 3; i++) {
+        var arc = [];
+        for (var j = 0; j <= 12; j++) {
+          var a = -Math.PI * .82 + j / 12 * Math.PI * .65;
+          arc.push([205 + Math.cos(a) * (22 + i * 17), 650 + Math.sin(a) * (22 + i * 17)]);
+        }
+        stroke(arc, colors.sound, 2.2, p, false, 20 + i);
+      }
+    });
+    mark(5.1, 13.7, "wind on my skin", 30, 770, colors.touch, { seed: 15 });
+    mark(6.0, 17.6, "my body leans", 270, 872, colors.body, { align: "center", seed: 16 }, function (p) {
+      curve([[40, 930], [140, 905], [270, 900], [400, 905], [500, 930]], colors.body, p, false, 33);
+    });
+    mark(7.9, 12.3, "how far is it now?", 390, 160, colors.thought, { align: "center", seed: 17 });
+    mark(9.8, 15.6, "I expect another bend", 270, 222, colors.expectation, { align: "center", seed: 18 }, function (p) {
+      curve([[215, 292], [250, 262], [300, 250], [340, 262]], colors.expectation, p, true, 34);
+    });
+    mark(13.2, 18.2, "I remember the sunset", 35, 350, colors.memory, { seed: 19 });
+    mark(16.3, 21.9, "a passing calm", 270, 195, colors.feeling, { align: "center", seed: 20 });
   }
+
   function resize() {
-    var r = cv.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
-    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); sc = r.width / VW; draw();
+    var rect = canvas.getBoundingClientRect();
+    ratio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * ratio);
+    canvas.height = Math.round(rect.height * ratio);
+    scale = rect.width / W;
+    draw();
   }
+
   function updateControl() {
-    playBtn.dataset.playing = String(playing);
-    playBtn.setAttribute('aria-label', playing ? 'Pause video and animation' : 'Play video and animation');
+    toggle.dataset.playing = String(playing);
+    toggle.setAttribute("aria-label", playing ? "Pause video and animation" : "Play video and animation");
   }
   function pause() {
-    requestId++; playing = false; v.pause(); cancelAnimationFrame(raf); raf = 0; last = 0; updateControl();
+    requestId++;
+    playing = false;
+    video.pause();
+    cancelAnimationFrame(frame);
+    frame = 0;
+    updateControl();
   }
   async function play() {
     if (playing || document.hidden) return;
     var token = ++requestId;
     try {
-      await v.play();
+      await video.play();
       if (token !== requestId) return;
-      playing = true; last = 0; updateControl(); raf = requestAnimationFrame(loop);
-    } catch (_) { if (token === requestId) { playing = false; updateControl(); draw(); } }
+      playing = true; updateControl();
+      frame = requestAnimationFrame(loop);
+    } catch (_) {
+      if (token === requestId) { playing = false; updateControl(); draw(); }
+    }
   }
-  function loop(ts) {
+  function loop() {
     if (!playing) return;
-    var dt = last ? Math.min(0.1, (ts - last) / 1000) : 0; last = ts;
-    if (!v.paused && !v.seeking && v.readyState >= 2) {
-      T += dt; local += dt;
-      if (local >= SCENES[idx].d + 1.5) { idx = (idx + 1) % SCENES.length; local = 0; }
-      if (!reduce.matches && ts - lastBoil > 125) { boil = (boil + 1) % 7; lastBoil = ts; }
+    if (!video.paused && !video.seeking && video.readyState >= 2) {
+      time = video.currentTime;
       draw();
     }
-    raf = requestAnimationFrame(loop);
+    frame = requestAnimationFrame(loop);
   }
-  playBtn.addEventListener('click', function () {
+
+  toggle.addEventListener("click", function () {
     if (playing) { manualPaused = true; pause(); }
-    else {
-      manualPaused = false;
-      // Reduced motion begins with a finished still; movement starts only on request.
-      if (reduce.matches && local >= SCENES[idx].d) { idx = 0; local = 0; }
-      play();
+    else { manualPaused = false; if (reducedMotion.matches) time = 0; play(); }
+  });
+  video.addEventListener("timeupdate", function () {
+    if (playing && video.duration && video.currentTime > video.duration - .2) video.currentTime = Math.min(4.6, video.duration / 4);
+  });
+  video.addEventListener("ended", function () {
+    if (playing) {
+      video.currentTime = Math.min(4.6, video.duration / 4);
+      video.play().catch(pause);
     }
   });
-  v.addEventListener('timeupdate', function () {
-    if (playing && v.duration && v.currentTime > v.duration - 0.2) v.currentTime = Math.min(4.6, v.duration / 4);
-  });
-  v.addEventListener('ended', function () {
-    if (playing) { v.currentTime = Math.min(4.6, v.duration / 4); v.play().catch(function () { pause(); }); }
-  });
-  if ('IntersectionObserver' in window) {
+  if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       visible = entries[0].isIntersecting;
       if (!visible) pause();
-      else if (!manualPaused && !reduce.matches && !document.hidden) play();
-    }, { threshold: 0.25 }).observe(cv);
+      else if (!manualPaused && !reducedMotion.matches && !document.hidden) play();
+    }, { threshold: .25 }).observe(canvas);
   }
-  document.addEventListener('visibilitychange', function () {
+  document.addEventListener("visibilitychange", function () {
     if (document.hidden) pause();
-    else if (visible && !manualPaused && !reduce.matches) play();
+    else if (visible && !manualPaused && !reducedMotion.matches) play();
   });
-  reduce.addEventListener('change', function () {
-    if (reduce.matches) { pause(); idx = 8; local = SCENES[8].d; boil = 0; draw(); }
+  reducedMotion.addEventListener("change", function () {
+    if (reducedMotion.matches) { pause(); time = 11; draw(); }
     else if (visible && !manualPaused && !document.hidden) play();
   });
-  window.addEventListener('resize', resize);
-  if (document.fonts) Promise.all([document.fonts.load("400 27px Caveat"), document.fonts.load("600 30px Caveat")]).then(resize);
+  window.addEventListener("resize", resize);
+  if (document.fonts) document.fonts.load("400 27px Caveat").then(resize);
   updateControl(); resize();
 })();
 </script></body></html>
