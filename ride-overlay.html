@@ -12,7 +12,7 @@
 @media(max-width:600px){.ride-overlay{margin:3rem auto}}
 </style></head><body><figure class="ride-overlay" aria-label="A recorded viewpoint where seeing, sound, bodily feeling, thought, memory and an I-thought appear and fade in one scene">
   <div class="ride-frame">
-    <video id="ride-video" muted playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
+    <video id="ride-video" muted loop playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
     <canvas id="ride-canvas" aria-hidden="true"></canvas>
     <button id="ride-toggle" class="ride-toggle" type="button" aria-label="Play video and animation" aria-controls="ride-video" data-playing="false">
       <svg class="ride-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
@@ -178,18 +178,24 @@
     toggle.dataset.playing = String(playing);
     toggle.setAttribute("aria-label", playing ? "Pause video and animation" : "Play video and animation");
   }
-  function pause() {
+  function pause(reset) {
     requestId++;
     playing = false;
     video.pause();
     cancelAnimationFrame(frame);
     frame = 0;
+    if (reset === true) {
+      video.currentTime = 0;
+      time = 0;
+      draw();
+    }
     updateControl();
   }
   async function play() {
     if (playing || document.hidden) return;
     var token = ++requestId;
     try {
+      if (video.ended) { video.currentTime = 0; time = 0; }
       await video.play();
       if (token !== requestId) return;
       playing = true; updateControl();
@@ -209,28 +215,24 @@
 
   toggle.addEventListener("click", function () {
     if (playing) { manualPaused = true; pause(); }
-    else { manualPaused = false; if (reducedMotion.matches) time = 0; play(); }
-  });
-  video.addEventListener("timeupdate", function () {
-    if (playing && video.duration && video.currentTime > video.duration - .2) video.currentTime = Math.min(4.6, video.duration / 4);
-  });
-  video.addEventListener("ended", function () {
-    if (playing) {
-      video.currentTime = Math.min(4.6, video.duration / 4);
-      video.play().catch(pause);
+    else {
+      manualPaused = false;
+      if (reducedMotion.matches) { video.currentTime = 0; time = 0; draw(); }
+      play();
     }
   });
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       visible = entries[0].isIntersecting;
-      if (!visible) pause();
+      if (!visible) pause(true);
       else if (!manualPaused && !reducedMotion.matches && !document.hidden) play();
     }, { threshold: .25 }).observe(canvas);
   }
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden) pause();
+    if (document.hidden) pause(true);
     else if (visible && !manualPaused && !reducedMotion.matches) play();
   });
+  window.addEventListener("pagehide", function () { pause(true); });
   reducedMotion.addEventListener("change", function () {
     if (reducedMotion.matches) { pause(); time = 11; draw(); }
     else if (visible && !manualPaused && !document.hidden) play();
