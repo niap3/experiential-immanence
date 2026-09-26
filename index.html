@@ -20,9 +20,9 @@
 @media(max-width:600px){.ride-overlay{margin:3rem auto}}
 </style></head><body><main aria-label="Experiential Immanence"><header class="hero"><h1>Experiential Immanence</h1></header><section aria-label="Propositions"><ol class="points"><li>Whatever is encountered is encountered in <button type="button" class="term" data-term="appearing">appearing</button>. Perceiving, feeling, remembering, imagining, judging and doubting are admitted in the manners in which they occur. Even the attempt to contest appearing is encountered as an experience; this does not establish what exists independently of experience.</li><li><button type="button" class="term" data-term="experience">Experience</button> designates appearing in its lived character. It names neither a substance nor a receptacle in which representations are contained. The domain of the present inquiry is what is given, together with its <button type="button" class="term" data-term="mode of givenness">mode of givenness</button>. No claim concerning the exhaustive constitution of reality follows from this restriction.</li><li>Differences between experiential modes are retained without assigning one mode foundational privilege over the others. This <button type="button" class="term" data-term="phenomenal parity">phenomenal parity</button> concerns their admissibility as experience. A perception, a recollection and an imagined possibility need not have equal determinacy or evidential force. Interpretation and <button type="button" class="term" data-term="conceptual apprehension">conceptual apprehension</button> belong to experience; description does not presuppose an uninterpreted sensory stratum beneath them.</li><li>The method is <button type="button" class="term" data-term="epoché">epoché</button>: <button type="button" class="term" data-term="assent">assent</button> is suspended wherever a commitment exceeds what is given. Suspension concerns endorsement, not the elimination of an experiential content. A belief, its meaning and its felt certainty remain admissible as experienced even when the assertion it expresses is left undecided.</li><li>A determination is <button type="button" class="term" data-term="immanent">immanent</button> insofar as it articulates appearing as given. A <button type="button" class="term" data-term="transcendent commitment">transcendent commitment</button> exceeds that articulation. The distinction is between an experienced claim and what the claim warrants us in asserting; it is not a partition between two regions of experience. Withholding assent need not leave the subsequent course or affective character of experience unchanged.</li><li>Where experience presents itself as of or about something, this <button type="button" class="term" data-term="intentionality">intentionality</button> is admitted. What is perceived, remembered or anticipated must be described according to its respective mode of givenness. The visible aspect of a cup and the <button type="button" class="term" data-term="horizon">horizon</button> of its unseen reverse are distinguishable within experience; anticipation of the reverse does not amount to its present visual perception. Neither directedness nor anticipation alone establishes an independently existing referent.</li><li>Experience is described here as having <button type="button" class="term" data-term="pre-reflective self-manifestation">pre-reflective self-manifestation</button>: its being lived does not require a second act observing it. Reflection is a further mode of experience in which experience becomes thematic. Neither lived presence nor reflective attention entails exhaustive or infallible knowledge of what is experienced.</li><li>The <button type="button" class="term" data-term="first-personal character">first-personal character</button> of experience is its being lived from a perspective; it is not itself an utterance of “I”. Seeing a road, feeling a bodily lean, anticipating a bend, and thinking “I am on my way” may occur together. The “I”-thought is one of these appearings. It neither creates the perspective nor establishes a <button type="button" class="term" data-term="substantial subject">substantial subject</button> apart from experience. Whether such a subject exists remains undecided by this method.</li></ol><figure class="ride-overlay" aria-label="A recorded viewpoint where seeing, sound, bodily feeling, thought, anticipation, memory, mood and an I-thought appear and fade in one scene, with two things that do not appear drawn as dashed questions">
   <div class="ride-frame">
-    <video id="ride-video" muted loop playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
+    <video id="ride-video" loop playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
     <canvas id="ride-canvas" aria-hidden="true"></canvas>
-    <button id="ride-sound" class="ride-toggle ride-sound" type="button" aria-label="Turn sound on" aria-controls="ride-video" data-muted="true">
+    <button id="ride-sound" class="ride-toggle ride-sound" type="button" aria-label="Turn sound off" aria-controls="ride-video" data-muted="false">
       <svg class="ride-sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>
       <svg class="ride-sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
     </button>
@@ -71,7 +71,7 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     expectation: "#efe3b8", feeling: "#c6d4ee", posit: "#b9cff5"
   };
   var time = reducedMotion.matches ? 11 : 0;
-  var playing = false, manualPaused = false, visible = false;
+  var playing = false, manualPaused = false, visible = false, soundWanted = true, soundBlocked = false;
   var frame = 0, requestId = 0, scale = 1, ratio = 1;
 
   function clamp(n) { return Math.max(0, Math.min(1, n)); }
@@ -226,10 +226,18 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     sound.setAttribute("aria-label", video.muted ? "Turn sound on" : "Turn sound off");
   }
   if (sound) sound.addEventListener("click", function () {
-    video.muted = !video.muted;
-    if (!video.muted) { video.volume = 1; manualPaused = false; play(); }
+    soundWanted = video.muted;
+    video.muted = !soundWanted;
+    if (soundWanted) { video.volume = 1; manualPaused = false; play(); }
     updateSound();
   });
+  // browsers hold back sound until the visitor interacts, so a muted autoplay gets its sound on the first tap or key
+  function unmuteOnGesture(event) {
+    if (sound && sound.contains(event.target)) return;
+    soundBlocked = false;
+    if (soundWanted && video.muted) { video.muted = false; updateSound(); }
+  }
+  ["click", "keydown", "touchend"].forEach(function (type) { document.addEventListener(type, unmuteOnGesture, true); });
   function updateControl() {
     toggle.dataset.playing = String(playing);
     toggle.setAttribute("aria-label", playing ? "Pause video and animation" : "Play video and animation");
@@ -252,12 +260,20 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     var token = ++requestId;
     try {
       if (video.ended) { video.currentTime = 0; time = 0; }
-      await video.play();
+      video.muted = !soundWanted || soundBlocked;
+      try { await video.play(); }
+      catch (error) {
+        if (video.muted || error.name !== "NotAllowedError") throw error;
+        soundBlocked = true;
+        video.muted = true;
+        await video.play();
+      }
+      updateSound();
       if (token !== requestId) return;
       playing = true; updateControl();
       frame = requestAnimationFrame(loop);
     } catch (_) {
-      if (token === requestId) { playing = false; updateControl(); draw(); }
+      if (token === requestId) { playing = false; updateControl(); updateSound(); draw(); }
     }
   }
   function loop() {
