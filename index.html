@@ -7,12 +7,11 @@
 .refs a{color:inherit;text-underline-offset:.16em}
 
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.ride{--sw:1340;--sh:1330;--m:400;--t:120;position:relative;left:50%;transform:translateX(-50%);width:min(1120px,calc(100vw - 2rem),calc((100vh - 2.5rem) * var(--sw) / var(--sh)));width:min(1120px,calc(100vw - 2rem),calc((100svh - 2.5rem) * var(--sw) / var(--sh)));margin:0 0 3.5rem}
+.ride{--sw:1340;--sh:1220;--m:400;--t:120;position:relative;left:50%;transform:translateX(-50%);width:min(1120px,calc(100vw - 2rem),calc((100vh - 2.5rem) * var(--sw) / var(--sh)));width:min(1120px,calc(100vw - 2rem),calc((100svh - 2.5rem) * var(--sw) / var(--sh)));margin:0 0 3.5rem}
 .ride-stage{position:relative;width:100%;aspect-ratio:var(--sw)/var(--sh)}
 .ride-frame{position:absolute;left:calc(var(--m) / var(--sw) * 100%);top:calc(var(--t) / var(--sh) * 100%);width:calc(540 / var(--sw) * 100%);height:calc(960 / var(--sh) * 100%);background:#ddd7cb;overflow:hidden}
 .ride-frame video{display:block;width:100%;height:100%;object-fit:cover}
 #ride-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#ride-scrub{position:absolute;z-index:3;margin:0;padding:0;opacity:0;cursor:pointer}
 .ride-toggle{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border:1.5px solid #2d2a25;border-radius:50%;background:rgba(253,250,243,.92);color:#2d2a25;display:grid;place-items:center;padding:8px;cursor:pointer;z-index:2;touch-action:manipulation}
 .ride-toggle:hover{background:#fffdf8}.ride-toggle:focus-visible{outline:2px solid #2d2a25;outline-offset:3px}
 .ride-toggle svg{grid-area:1/1;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -39,9 +38,8 @@
       </button>
     </div>
     <canvas id="ride-canvas" aria-hidden="true"></canvas>
-    <input type="range" id="ride-scrub" min="0" max="22.6" step="0.1" value="0" aria-label="Move through the ride" aria-controls="ride-video">
   </div>
-  <figcaption class="sr-only"><p>A recorded ride with notes written around it. The frame around the video says “everything in here is seen”. A note only points into the picture when the thing it talks about is somewhere in it.</p><p>The notes, in order:</p><ol><li>the sky going all orange</li><li>&lt;engine running&gt; hmmmmmm, &lt;wind...&gt; fffhhhhhhh</li><li>wind on the skin, cold... colder</li><li>road, and more road, and more road</li><li>“the road keeps going after the bend.” It starts as a statement, then the full stop turns into a question mark and its line goes dashed and leaves the frame. The answer stays open.</li><li>a bend coming up... not yet, not yet</li><li>“how much longer??”</li><li>“im on my way”</li><li>remembering this same road, some other evening</li><li>“someone sitting behind all this, watching.” This one also turns from a statement into a question, and its dashed line leaves the frame.</li><li>calm, for a second there</li><li>leaning into the turn a little. An arrow from the bend to the lean says “going with it anyway”.</li><li>(these notes could be wrong too)</li></ol><p>Under the ride there is a timeline in four parts, the same four as the text below: appearing, suspension, how things appear, living with it.</p></figcaption>
+  <figcaption class="sr-only"><p>A recorded ride with notes written around it. The frame around the video says “everything in here is seen”. A note only points into the picture when the thing it talks about is somewhere in it.</p><p>The notes, in order:</p><ol><li>the sky going all orange</li><li>&lt;engine running&gt; hmmmmmm, &lt;wind...&gt; fffhhhhhhh</li><li>wind on the skin, cold... colder</li><li>road, and more road, and more road</li><li>“the road keeps going after the bend.” It starts as a statement, then the full stop turns into a question mark and its line goes dashed and leaves the frame. The answer stays open.</li><li>a bend coming up... not yet... not yet</li><li>“how much longer??”</li><li>“im on my way”</li><li>remembering this same road, some other evening</li><li>“someone sitting behind all this, watching.” This one also turns from a statement into a question, and its dashed line leaves the frame.</li><li>“she’s feeling the wind too.” Written from her hand on the handlebar, this also turns from a statement into a question, its dashed line leaving the frame. Her body is seen; whether she feels anything is left open.</li><li>calm, for a second there</li><li>leaning into the turn a little. An arrow from the bend to the lean says “going with it anyway”.</li><li>(these notes could be wrong too)</li></ol></figcaption>
 </figure><section aria-label="Propositions"><section class="movement" aria-labelledby="movement-1"><h2 class="movement-title" id="movement-1"><span>I</span>Appearing</h2><ol class="points"><li><h3>Appearing as the point of departure</h3>The inquiry begins with whatever presents itself, provisionally termed <button type="button" class="term" data-term="appearing">appearing</button>. Perceiving, feeling, remembering, imagining, judging, and doubting are admitted for consideration without requiring <button type="button" class="term" data-term="assent">assent</button> to what they seem to disclose. This beginning is a methodological undertaking, not a proof that appearing exists as an ultimate reality. A denial of appearing may itself be considered as an appearance; this does not establish an indubitable foundation.</li>
 <li><h3>Experience and the scope of inquiry</h3><button type="button" class="term" data-term="experience">Experience</button> is used here as a name for appearing. Its use posits neither a substance, a container for representations, nor an experiencer distinct from what appears. The inquiry attends to what appears and how it appears, termed its <button type="button" class="term" data-term="mode of givenness">mode of givenness</button>. Givenness implies neither certainty nor something delivered to a recipient. Whether experience exhausts reality, whether anything exists independently of it, and whether that distinction is ultimately adequate remain suspended.</li>
 <li><h3>Phenomenal parity</h3>No mode of appearing is excluded merely because it is doubtful, conceptual, imagined, or apparently mistaken. This <button type="button" class="term" data-term="phenomenal parity">phenomenal parity</button> concerns admission to inquiry; it does not declare appearances identical or their claims equally credible. Perception may appear compelling, recollection uncertain, and imagination freely variable. These differences may be described without being accepted as guarantees of truth. Interpretation and <button type="button" class="term" data-term="conceptual apprehension">conceptual apprehension</button> are likewise admitted; the inquiry requires no foundation of uninterpreted sensation.</li></ol></section>
@@ -49,7 +47,7 @@
 <li><h3>Description and commitment</h3>A description attempts to articulate what appears and how it appears. An ontological or epistemic commitment endorses a claim about what exists or what is known. The distinction concerns how a formulation is used, not two separate regions of reality. “There seems to be a cup” can function as a provisional description; it is not thereby an infallible report. Descriptions remain selective, interpretive, and revisable. Neither their wording nor their apparent fidelity exempts them from suspension.</li></ol></section>
 <section class="movement" aria-labelledby="movement-3"><h2 class="movement-title" id="movement-3"><span>III</span>How things appear</h2><ol class="points" start="6" style="counter-reset:point 5"><li><h3>Intentionality and horizon</h3>Where appearing has the character of being of or about something, this directedness is termed <button type="button" class="term" data-term="intentionality">intentionality</button>. What appears is considered in the manner in which it appears: as perceived, remembered, imagined, anticipated, or otherwise presented. A cup’s visible side may be seen while its reverse is anticipated without being seen. Such anticipated or implicit aspects constitute a <button type="button" class="term" data-term="horizon">horizon</button>. Neither directedness nor horizon is taken to settle whether an independent object exists. The inquiry does not require every appearance to have an object.</li>
 <li><h3>Manifestation and reflection</h3>An experience may be described as occurring without a separate act of observing it. <button type="button" class="term" data-term="pre-reflective manifestation">Pre-reflective manifestation</button> provisionally names this character; it does not establish that every experience knows itself or contains an inner witness. Reflection occurs where experience itself becomes a theme of attention. It supplies no guaranteed access to an unchanged original: attending, recollecting, and describing may alter what is subsequently presented. Neither reflection nor apparent immediacy confers infallibility.</li>
-<li><h3>Perspective and subject</h3>Where a <button type="button" class="term" data-term="first-personal character">first-personal character</button> appears, it is described without concluding that a <button type="button" class="term" data-term="substantial subject">substantial subject</button> underlies it. Bodily orientation, a sense of ownership, and an explicit thought of “I” need not be treated as the same appearance. Their relations remain matters for inquiry. The presence of an “I”-thought does not establish an independently existing experiencer; its absence does not establish experience without a subject. A substantial self, a subjectless reality, and other interpretations remain unendorsed; none is a conclusion of the system.</li>
+<li><h3>Perspective and subject</h3>Where a <button type="button" class="term" data-term="first-personal character">first-personal character</button> appears, it is described without concluding that a <button type="button" class="term" data-term="substantial subject">substantial subject</button> underlies it. Bodily orientation, a sense of ownership, and an explicit thought of “I” need not be treated as the same appearance. Their relations remain matters for inquiry. The presence of an “I”-thought does not establish an independently existing experiencer; its absence does not establish experience without a subject. A substantial self, a subjectless reality, and other interpretations remain unendorsed; none is a conclusion of the system. Another person’s face, voice, and movements may appear; that they have an experience of their own does not appear with them, and remains suspended. Practical reliance does not wait on it: one may go on treating them as someone.</li>
 <li><h3>Co-givenness and field</h3>Where appearances present themselves together, their <button type="button" class="term" data-term="co-givenness">co-givenness</button> may be described. <button type="button" class="term" data-term="phenomenal field">Phenomenal field</button> names this apparent togetherness without positing a container, a unifying entity, or a necessary unity of all experience. Nearness, distance, depth, separation, and difference are considered as they appear. Their description does not settle whether anything exists independently, or how it would be related. Fragmentation, discontinuity, and uncertainty about what belongs together are equally admissible.</li>
 <li><h3>Temporality and recollection</h3>Succession, duration, persistence, anticipation, and recollection are considered in their respective modes of appearing. A recollection is admitted as recollection without endorsement of the past it presents. An anticipation is admitted without endorsement of the future it projects. Apparent recurrence establishes no necessary law. Historical claims, including claims about the inquiry’s own earlier stages, remain suspended, whether offered as true or as known. This suspension neither establishes their falsity nor demonstrates that historical knowledge is impossible.</li></ol></section>
 <section class="movement" aria-labelledby="movement-4"><h2 class="movement-title" id="movement-4"><span>IV</span>Living with it</h2><ol class="points" start="11" style="counter-reset:point 10"><li><h3>Reasoning, evidence, and explanation</h3>Descriptions, arguments, evidence, and explanations may all be examined and provisionally employed. Their differences are retained: an argument offers reasons, evidence bears on a claim, and an explanation proposes grounds, causes, mechanisms, or conditions. Their occurring within experience does not by itself validate or invalidate them. Further inquiry may change which account appears better supported without ending suspension. Experiential Immanence claims neither to refute competing accounts of reality nor to establish its own privileged access to truth. Its concepts, inferences, and formulations remain answerable to criticism and revision.</li>
@@ -84,65 +82,62 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
   var canvas = document.getElementById("ride-canvas");
   var toggle = document.getElementById("ride-toggle");
   var sound = document.getElementById("ride-sound");
-  var scrub = document.getElementById("ride-scrub");
   var ctx = canvas.getContext("2d");
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var INK = "#2d2a25", PAPER = "rgba(253,251,246,.9)";
-  var DURATION = 22.6, STILL = 20.2;
+  var STILL = 20.2;
   var time = reducedMotion.matches ? STILL : 0;
-  var playing = false, manualPaused = false, visible = false, soundWanted = true, chosen = false, focused = false;
+  var playing = false, manualPaused = false, visible = false, soundWanted = true, chosen = false;
   var frame = 0, requestId = 0, ratio = 1, scale = 1;
   // everything is measured in the video's own units (540 x 960); the margins around it hold the notes
   var L, SW, SH;
-
-  // the text's four movements, as stretches of the ride
-  var movements = [
-    { from: 0, to: 6, name: "appearing" },
-    { from: 6, to: 9.5, name: "suspension" },
-    { from: 9.5, to: 16.5, name: "how things appear" },
-    { from: 16.5, to: DURATION, name: "living with it" }
-  ];
 
   // side: l (left margin) or r (right margin); y: first line, in frame units;
   // to: a place in the picture, given only where the appearing has one
   var notes = [
     { t: [0.4, 3.7], side: "r", y: 250, text: "the sky going all orange", to: [250, 170] },
-    { t: [1.2, 22], side: "r", y: 400, text: "<engine running> hmmmmmm\n<wind...> fffhhhhhhh" },
+    { t: [1.2, 22], side: "r", y: 440, text: "<engine running> hmmmmmm\n<wind...> fffhhhhhhh" },
     { t: [3, 11.2], side: "r", y: 690, text: "wind on the skin, cold... colder" },
-    { t: [3.9, 21.8], side: "r", y: 250, text: "road, and more road,\nand more road", to: [320, 330] },
-    { t: [9.6, 22], side: "l", y: 190, text: "a bend coming up...\nnot yet, not yet", to: "far", bare: true },
+    { t: [3.9, 21.8], side: "r", y: 250, text: "road,\nand more road,\nand more road", to: [320, 330] },
+    { t: [9.6, 22], side: "l", y: 190, text: "a bend\ncoming up...\nnot yet... not yet", to: "far", bare: true },
     { t: [9.8, 13.8], side: "l", y: 660, text: "“how much longer??”" },
     { t: [11.2, 15.6], side: "l", y: 500, text: "“im on my way”" },
     { t: [12.2, 18.6], side: "r", y: 690, text: "remembering this same road, some other evening" },
     { t: [15.4, 22.2], side: "l", y: 660, text: "calm, for a second there" },
     { t: [16.6, 22], side: "l", y: 500, text: "leaning into the turn a little" },
-    { t: [19.2, 22.5], side: "l", y: 870, text: "(these notes could be wrong too)" }
+    { t: [19.2, 22.5], side: "l", y: 870, text: "(these notes\ncould be\nwrong too)" }
   ];
   var BEND = notes[4], LEAN = notes[9];
   var TAG = { side: "l", y: 40, text: "everything in here is seen" };
   // a claim is first written as a statement; then its full stop becomes a question mark and its
   // line breaks into dashes and leaves the frame. Held open, never crossed out.
+  // her body appears; that she feels anything is asked about, the same as the someone behind the seeing
   var claims = [
-    { t: [6.2, 22.2], turn: 8.2, text: "the road keeps going after the bend", from: "far", at: 190, edge: "top" },
-    { t: [13.4, 22.4], turn: 15.2, text: "someone sitting behind all this, watching", from: [270, 960], at: 270, edge: "bottom" }
+    { t: [6.2, 22.2], turn: 8.2, text: "the road keeps going after the bend", from: "far", at: 190, edge: "top", ring: true },
+    { t: [13.4, 22.4], turn: 15.2, text: "someone sitting behind all this, watching", from: [270, 960], at: 270, edge: "bottom" },
+    { t: [14, 22.4], turn: 16, text: "she’s feeling\nthe wind too", from: "hand", y: 870, edge: "right", ring: true }
   ];
   // the anticipated bend guides the lean, while the road beyond it stays a question
   var RELY = { t: [17.2, 22], text: "going with it anyway" };
-  // where the road goes out of sight, second by second (time, x, y)
-  var FAR = [[6.2, 115, 150], [7, 160, 175], [8, 195, 232], [9, 200, 262], [10, 185, 265], [11, 145, 115],
-    [12, 130, 110], [13, 175, 140], [14, 180, 128], [15, 190, 124], [16, 200, 113], [17, 212, 88],
-    [18, 130, 98], [19, 175, 152], [20, 170, 250], [21, 160, 232], [22, 175, 205]];
-  function farEnd(t) {
-    if (t <= FAR[0][0]) return [FAR[0][1], FAR[0][2]];
-    for (var i = 1; i < FAR.length; i++) {
-      if (t <= FAR[i][0]) {
-        var a = FAR[i - 1], b = FAR[i], k = (t - a[0]) / (b[0] - a[0]);
+  // where things are in the picture, second by second (time, x, y): the road's far end, her hand on the grip
+  var TRACKS = {
+    far: [[6.2, 115, 150], [7, 160, 175], [8, 195, 232], [9, 200, 262], [10, 185, 265], [11, 145, 115],
+      [12, 130, 110], [13, 175, 140], [14, 180, 128], [15, 190, 124], [16, 200, 113], [17, 212, 88],
+      [18, 130, 98], [19, 175, 152], [20, 170, 250], [21, 160, 232], [22, 175, 205]],
+    hand: [[13, 380, 640], [14, 395, 635], [15, 400, 640], [16, 385, 620], [17, 355, 590], [18, 360, 580],
+      [19, 340, 620], [20, 330, 640], [21, 370, 610], [22, 375, 560]]
+  };
+  function track(keys, t) {
+    if (t <= keys[0][0]) return [keys[0][1], keys[0][2]];
+    for (var i = 1; i < keys.length; i++) {
+      if (t <= keys[i][0]) {
+        var a = keys[i - 1], b = keys[i], k = (t - a[0]) / (b[0] - a[0]);
         return [a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
       }
     }
-    return [FAR[FAR.length - 1][1], FAR[FAR.length - 1][2]];
+    return [keys[keys.length - 1][1], keys[keys.length - 1][2]];
   }
-  function place(p) { return p === "far" ? farEnd(time) : p; }
+  function place(p) { return typeof p === "string" ? track(TRACKS[p], time) : p; }
   // stops a line short of a point, so a small ring can sit round it
   function shy(from, to, r) {
     var d = Math.hypot(to[0] - from[0], to[1] - from[1]) || 1;
@@ -154,7 +149,6 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
   function fx(x) { return L.M + x; }
   function fy(y) { return L.T + y; }
   function font(size) { return "italic " + size + "px 'EB Garamond', Garamond, Georgia, serif"; }
-  function timelineY() { return L.T + 960 + L.B - (L.narrow ? 100 : 88); }
 
   function bezier(a, b, bend) {
     var dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy) || 1;
@@ -244,11 +238,14 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     ctx.restore();
     return ends;
   }
+  // how wide a margin note may run, and how far it sits from the frame
+  function margin() { return L.narrow ? 206 : L.M - 60; }
+  function gap() { return L.narrow ? 20 : 26; }
   function spot(n) {
-    var lines = wrap(n.text, L.M - 60, L.F), y = fy(n.y);
+    var lines = wrap(n.text, margin(), L.F), y = fy(n.y);
     return {
       lines: lines, y: y,
-      x: n.side === "l" ? L.M - 26 : L.M + 540 + 26,
+      x: n.side === "l" ? L.M - gap() : L.M + 540 + gap(),
       align: n.side === "l" ? "right" : "left",
       top: y - L.F * 0.75, bottom: y + (lines.length - 1) * L.lh + L.F * 0.3
     };
@@ -294,18 +291,24 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
   function drawClaim(c, k) {
     if (time <= c.t[0] || time >= c.t[1]) return;
     var appear = ease((time - c.t[0]) / 0.9), fade = ease((c.t[1] - time) / 1.3), turned = ease((time - c.turn) / 0.7);
-    var lines = wrap(c.text, c.edge === "top" ? 520 : 600, L.F), n = lines.length;
-    var widest = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; }));
-    var p = place(c.from), from = [fx(p[0]), fy(p[1])], y, to;
-    var half = widest / 2 + L.F * 0.4, cx = Math.max(half + 12, Math.min(SW - half - 12, fx(c.at)));
-    if (c.edge === "top") { y = L.T - 44 - (n - 1) * L.lh; to = [cx, L.T - 44 + L.F * 0.35]; }
-    else { y = fy(960) + 86; to = [cx, y - L.F * 0.85]; }
+    var p = place(c.from), from = [fx(p[0]), fy(p[1])], lines, x, y, align, to;
+    if (c.edge === "right") {
+      // written in the right margin, its line leaving the picture through the right edge
+      lines = wrap(c.text, margin(), L.F); align = "left";
+      x = L.M + 540 + gap(); y = fy(c.y); to = [x - 12, y - L.F * 0.3];
+    } else {
+      lines = wrap(c.text, c.edge === "top" ? 520 : 600, L.F); align = "center";
+      var half = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; })) / 2 + L.F * 0.4;
+      x = Math.max(half + 12, Math.min(SW - half - 12, fx(c.at)));
+      if (c.edge === "top") { y = L.T - 44 - (lines.length - 1) * L.lh; to = [x, L.T - 44 + L.F * 0.35]; }
+      else { y = fy(960) + 86; to = [x, y - L.F * 0.85]; }
+    }
     ctx.save();
     ctx.globalAlpha *= fade;
-    if (c.from === "far") { ring(from, 10, appear, 130 + k); from = shy(to, from, 13); }
+    if (c.ring) { ring(from, 10, appear, 130 + k); from = shy(to, from, 13); }
     pencil(bezier(from, to, 10), appear, { halo: true, seed: 140 + k * 9, dash: turned > 0 ? [10, 9 * turned] : [] });
-    var ends = write(lines, cx, y, "center", L.F, appear, L.lh);
-    if (appear >= 1) punctuate(ends[n - 1], L.F, turned, 150 + k * 9);
+    var ends = write(lines, x, y, align, L.F, appear, L.lh);
+    if (appear >= 1) punctuate(ends[ends.length - 1], L.F, turned, 150 + k * 9);
     ctx.restore();
   }
   function drawReliance() {
@@ -322,25 +325,6 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
       ease((time - RELY.t[0] - 0.5) / 0.9), L.lh);
     ctx.restore();
   }
-  function drawTimeline() {
-    var x0 = 40, x1 = SW - 40, y = timelineY(), size = Math.round(L.F * 0.78);
-    pencil(bezier([x0, y], [x1, y], 4), 1, { seed: 90, width: 1.8 });
-    movements.forEach(function (m, i) {
-      var a = x0 + (x1 - x0) * m.from / DURATION, b = x0 + (x1 - x0) * m.to / DURATION;
-      if (i) pencil(bezier([a, y - 9], [a, y + 9], 1), 1, { seed: 91 + i, width: 1.6 });
-      ctx.save();
-      ctx.globalAlpha *= time >= m.from && time < m.to ? 1 : 0.45;
-      write(wrap(m.name, b - a - 12, size), (a + b) / 2, y + size * 1.45, "center", size, 1, size * 1.2);
-      ctx.restore();
-    });
-    var mx = x0 + (x1 - x0) * clamp(time / DURATION);
-    ctx.save();
-    ctx.fillStyle = INK;
-    ctx.beginPath(); ctx.arc(mx, y, 5.5, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-    if (focused) ring([mx, y], 16, 1, 98);
-  }
-
   function draw() {
     if (!L) return;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -351,21 +335,15 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     notes.forEach(drawNote);
     claims.forEach(drawClaim);
     drawReliance();
-    drawTimeline();
   }
 
   function layout() {
     var narrow = window.innerWidth < 720;
-    L = narrow ? { narrow: true, M: 230, T: 130, B: 300, F: 34, lh: 42 }
-      : { narrow: false, M: 400, T: 120, B: 250, F: 27, lh: 35 };
+    L = narrow ? { narrow: true, M: 230, T: 130, B: 170, F: 34, lh: 42 }
+      : { narrow: false, M: 400, T: 120, B: 140, F: 27, lh: 35 };
     SW = 540 + 2 * L.M; SH = L.T + 960 + L.B;
     figure.style.setProperty("--sw", SW); figure.style.setProperty("--sh", SH);
     figure.style.setProperty("--m", L.M); figure.style.setProperty("--t", L.T);
-    var y = timelineY();
-    scrub.style.left = 40 / SW * 100 + "%";
-    scrub.style.width = (SW - 80) / SW * 100 + "%";
-    scrub.style.top = (y - 26) / SH * 100 + "%";
-    scrub.style.height = 52 / SH * 100 + "%";
   }
   function resize() {
     layout();
@@ -376,25 +354,6 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     scale = rect.width / SW;
     draw();
   }
-
-  function describe(t) {
-    var m = movements.filter(function (m) { return t >= m.from && t < m.to; })[0] || movements[3];
-    return Math.round(t) + " seconds, " + m.name;
-  }
-  function syncScrub() {
-    scrub.value = time.toFixed(1);
-    scrub.setAttribute("aria-valuetext", describe(time));
-  }
-  scrub.addEventListener("input", function () {
-    manualPaused = true;
-    if (playing) pause();
-    time = parseFloat(scrub.value) || 0;
-    try { video.currentTime = time; } catch (_) {}
-    scrub.setAttribute("aria-valuetext", describe(time));
-    draw();
-  });
-  scrub.addEventListener("focus", function () { focused = true; draw(); });
-  scrub.addEventListener("blur", function () { focused = false; draw(); });
 
   function updateSound() {
     if (!sound) return;
@@ -423,7 +382,6 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
       time = reducedMotion.matches ? STILL : 0;
       draw();
     }
-    syncScrub();
     updateControl();
   }
   async function play() {
@@ -452,7 +410,6 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
     if (!video.paused && !video.seeking && video.readyState >= 2) {
       time = video.currentTime;
       draw();
-      syncScrub();
     }
     frame = requestAnimationFrame(loop);
   }
@@ -483,6 +440,6 @@ dialog.querySelector('button').addEventListener('click',()=>dialog.close());
   });
   window.addEventListener("resize", resize);
   if (document.fonts) document.fonts.load("italic 400 27px 'EB Garamond'").then(resize);
-  updateControl(); updateSound(); resize(); syncScrub();
+  updateControl(); updateSound(); resize();
 })();
 </script></body></html>
