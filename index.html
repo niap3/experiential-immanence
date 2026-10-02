@@ -21,7 +21,7 @@
 
 
 @media print{main{max-width:none;padding:0}body{font-size:12pt}.ride{display:none}.hero h1{font-size:30pt}.term{border:0}a{color:inherit}}
-:root{--open:#6b6b6b;--est:#000;--card:#fafafa;--rule:#ddd}
+:root{--open:#0000c0;--est:#007000;--card:#fafafa;--rule:#ddd}
 main{max-width:44rem}
 .hero{margin:0 0 2.6rem}.hero h1{margin:0}
 .n{display:inline-grid;place-items:center;width:2.1rem;height:2.1rem;border:1.5px solid var(--ink);border-radius:50%;font-size:1.05rem;font-weight:600;line-height:1}
@@ -97,7 +97,8 @@ ul.plain li{margin:.15rem 0}
 .sketch .sw-est{width:.85rem;height:.85rem;margin:.38em 0 0 .4rem;background:none}
 .sketch main>footer{border-top-color:transparent}
 .ride-toggle svg.sk{width:calc(100% + 20px);height:calc(100% + 20px);grid-area:auto}
-.cup-second{stroke-width:1.4;opacity:.45}</style><script>document.documentElement.classList.add("sketch")</script></head><body><div class="sheet"><main aria-label="Experiential Immanence"><header class="hero"><h1>Experiential Immanence</h1></header>
+.cup-second{stroke-width:1.4;opacity:.45}.sw-act{border-top-color:#c00000}.sw-act::after{border-left-color:#c00000}
+</style><script>document.documentElement.classList.add("sketch")</script></head><body><div class="sheet"><main aria-label="Experiential Immanence"><header class="hero"><h1>Experiential Immanence</h1></header>
 
 
 
@@ -397,7 +398,7 @@ const terms={"appearing":"Whatever appears, of any kind: seen, heard, felt, reme
   // same way the ride diagram draws its lines. A seed per element keeps a shape the same when
   // the element changes size and the shape is drawn again.
   var NS = "http://www.w3.org/2000/svg";
-  var INK = "#000", GREY = "#8a8a8a", OPEN = "#6b6b6b", EST = "#000";
+  var INK = "#000", GREY = "#8a8a8a", OPEN = "#0000c0", EST = "#007000", ACT = "#c00000";
   var PAD = 10;
 
   function rng(seed) {
@@ -560,7 +561,7 @@ const terms={"appearing":"Whatever appears, of any kind: seen, heard, felt, reme
     [".sw-ink", "line", { color: INK }],
     [".sw-open", "line", { color: OPEN, dash: "6 5" }],
     [".sw-est", "dot", { color: EST }],
-    [".sw-act", "arrow", { color: EST }],
+    [".sw-act", "arrow", { color: ACT }],
     ["main > footer", "rule", {}],
     [".ride-toggle", "ring", { color: INK, width: 1.5 }]
   ];
@@ -623,7 +624,7 @@ const terms={"appearing":"Whatever appears, of any kind: seen, heard, felt, reme
   var sound = document.getElementById("ride-sound");
   var ctx = canvas.getContext("2d");
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  var INK = "#000", PAPER = "rgba(255,255,255,.9)", OPEN = "#6b6b6b", EST = "#000";
+  var INK = "#000", PAPER = "rgba(255,255,255,.9)", OPEN = "#0000c0", EST = "#007000", ACT = "#c00000";
   var STILL = 20.2;
   var time = reducedMotion.matches ? STILL : 0;
   var playing = false, manualPaused = false, visible = false, soundWanted = true, chosen = false;
@@ -651,7 +652,7 @@ const terms={"appearing":"Whatever appears, of any kind: seen, heard, felt, reme
   // line breaks into dashes and leaves the frame. Held open, never crossed out.
   // where something seen bears on it (the road so far, her hand on the grip), an estimate follows the
   // question: "estimate: probably". The someone behind the seeing gets no estimate; it stays a bare question.
-  // colours: notes in ink (what appears), claims in OPEN (left open), estimates and acting on them in EST
+  // colours: notes in black (what appears), claims in blue (left open), estimates in green, acting on them in red
   var claims = [
     { t: [6.2, 22.2], turn: 8.2, guess: 10.2, text: "claim: the road continues after the bend", from: "far", at: 190, edge: "top", ring: true },
     { t: [13.4, 22.4], turn: 15.2, text: "claim: someone sits behind all this, watching", from: [270, 960], at: 270, edge: "bottom" },
@@ -875,11 +876,11 @@ const terms={"appearing":"Whatever appears, of any kind: seen, heard, felt, reme
     var p0 = [x, a.bottom + 16], p1 = [x, b.top - 8];
     ctx.save();
     ctx.globalAlpha *= fade;
-    pencil(bezier(p0, p1, -18), appear, { seed: 120, color: EST });
-    pencil([[x - 9, p1[1] - 13], p1, [x + 8, p1[1] - 14]], ease((time - RELY.t[0] - 1.1) / 0.3), { seed: 121, color: EST });
+    pencil(bezier(p0, p1, -18), appear, { seed: 120, color: ACT });
+    pencil([[x - 9, p1[1] - 13], p1, [x + 8, p1[1] - 14]], ease((time - RELY.t[0] - 1.1) / 0.3), { seed: 121, color: ACT });
     var ls = wrap(RELY.text, L.narrow ? 150 : 280, L.F);
     write(ls, x - 26, (p0[1] + p1[1]) / 2 - (ls.length - 1) * L.lh / 2 + L.F * 0.3, "right", L.F,
-      ease((time - RELY.t[0] - 0.5) / 0.9), L.lh, EST);
+      ease((time - RELY.t[0] - 0.5) / 0.9), L.lh, ACT);
     ctx.restore();
   }
   function draw() {
