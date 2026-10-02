@@ -99,6 +99,7 @@ ul.plain li{margin:.15rem 0}
 .ride-toggle svg.sk{width:calc(100% + 20px);height:calc(100% + 20px);grid-area:auto}
 .cup-second{stroke-width:1.4;opacity:.45}.sw-act{border-top-color:#c00000}.sw-act::after{border-left-color:#c00000}
 .prop h3{font-size:1.18rem;font-weight:600;line-height:1.35;margin:2.4rem 0 .55rem}.prop h3 .pn{color:#666;font-weight:400;margin-right:.55rem}.prop p{margin:0 0 1rem}section>h2 .n{font-size:.85rem}
+.sketch section>h2 .n{width:auto;min-width:1.5rem;height:auto;padding:.15rem .35rem;border:0;border-radius:0;font-size:1em;font-weight:600}
 </style><script>document.documentElement.classList.add("sketch")</script></head><body><div class="sheet"><main aria-label="Experiential Immanence"><header class="hero"><h1>Experiential Immanence</h1></header>
 
 <section id="appearing" aria-labelledby="m1">
@@ -487,6 +488,18 @@ const terms={"appearing":"The provisional name for whatever presents itself, dou
   }
 
   var shapes = {
+    // a highlighter swipe behind the number: two broad, see-through passes with slanted, ragged ends
+    highlight: function (g, w, h, r) {
+      var x0 = -6, x1 = w + 6;
+      for (var pass = 0; pass < 2; pass++) {
+        var top = h * (0.12 + r() * 0.06) + pass * 2.5, bot = h * (0.9 + r() * 0.06) - (1 - pass) * 2.5;
+        var a = x0 + r() * 4, b = x1 - r() * 4, slant = 3 + r() * 3, wt = wobble(r, 0.6), wb = wobble(r, 0.6), up = [], down = [];
+        for (var x = a; x <= b; x += 3) { up.push([x, top + wt(x)]); down.push([x - slant * 0.4, bot + wb(x)]); }
+        up.push([b + slant, top + wt(b)]); down.push([b - slant * 0.2, bot + wb(b)]);
+        var pts = up.concat(down.reverse(), [[a - slant, bot + wb(a)]]);
+        el("path", { d: d(pts) + "Z", fill: "#000", opacity: 0.11 + r() * 0.03 }, g);
+      }
+    },
     ring: function (g, w, h, r, o) {
       var pts = ellipse(w / 2, h / 2, w / 2 - 0.5, h / 2 - 1);
       pen(g, pts, r, { closed: true, width: o.width || 1.5, color: o.color, amp: 0.7, overPx: Math.min(20, (w + h) * 0.3), drift: 1.2 });
@@ -533,7 +546,7 @@ const terms={"appearing":"The provisional name for whatever presents itself, dou
   };
 
   var plan = [
-    ["section > h2 .n", "ring", {}],
+    ["section > h2 .n", "highlight", {}],
     [".chips li", "pill", {}],
     [".meter", "box", {}],
     [".meter-track", "meter", {}],
