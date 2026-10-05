@@ -1,0 +1,272 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The system, in words · Experiential Immanence</title><meta name="description" content="Experiential Immanence: start from whatever appears, leave every claim to truth or knowledge open, and act on estimates instead."><meta property="og:type" content="website"><meta property="og:title" content="Experiential Immanence"><meta property="og:description" content="Experiential Immanence: start from whatever appears, leave every claim to truth or knowledge open, and act on estimates instead."><meta property="og:url" content="https://niap3.github.io/experiential-immanence/"><meta property="og:image" content="https://niap3.github.io/experiential-immanence/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Experiential Immanence: the title beside a still from a scooter ride"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ctext x='16' y='24' font-family='Georgia,serif' font-size='24' text-anchor='middle' fill='%23fff'%3E%C2%A7%3C/text%3E%3C/svg%3E"><style>
+*{box-sizing:border-box}
+body{margin:0;color:#000;background:#fff;font:17px/1.5 "Times New Roman",Times,serif}
+main{max-width:46rem;margin:auto;padding:4rem 1.5rem}
+.sheet{container-type:inline-size}
+a{color:#0000ee}
+button{font:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid #000;outline-offset:4px}
+.hero{margin:0 0 2.6rem}
+.hero h1{font-size:2.2em;font-weight:bold;line-height:1.15;margin:0;overflow-wrap:break-word}
+section>h2{font-size:1.5em;font-weight:bold;line-height:1.25;margin:2em 0 .6em;padding-top:.9em;border-top:2px groove #c0c0c0}
+section>h2 .n{margin-right:.3em}
+section>h2 .n::after{content:"."}
+.prop h3{font-size:1.17em;font-weight:bold;line-height:1.35;margin:1.8em 0 .4em}
+.prop h3 .pn{margin-right:.4em}
+.prop>p{margin:0 0 1rem}
+.term{background:none;border:0;padding:0;font:inherit;color:#0000ee;text-decoration:underline;cursor:pointer}
+.term[aria-expanded=true]{color:#c00000}
+.cite{font-size:.72em;line-height:0;margin-left:.1em}
+.cite a{text-decoration:none}
+.cite a:hover{text-decoration:underline}
+.unfold{display:block;height:0;overflow:hidden;margin:.4em 0 .6em;background:#f4f4f4;border:1px solid #808080;transition:height .55s cubic-bezier(.2,.75,.25,1);cursor:pointer}
+.unfold-inner{padding:.6em .85em;line-height:1.45}
+.unfold-term{font-weight:bold;margin-right:.4em}
+.unfold-term::after{content:"."}
+.cup{display:flex;align-items:center;gap:1.2rem;margin:.6rem 0 .4rem}
+.cup svg{flex:none;width:230px;height:auto}
+.cup-near{fill:none;stroke:#000;stroke-width:2.6;stroke-linecap:round}
+.cup-far{fill:none;stroke:#0000c0;stroke-width:2.4;stroke-dasharray:7 6}
+.cup-eye{fill:#000}
+.cup-t-open{fill:#0000c0;font:italic 21px "Times New Roman",Times,serif}
+.cup-t-ink{fill:#000;font:21px "Times New Roman",Times,serif}
+.cup-cap{margin:0;font-size:.98rem;color:#595959}
+.ride{--sw:1340;--sh:1220;--m:400;--t:120;position:relative;left:50%;transform:translateX(-50%);width:min(1120px,calc(100cqw - 2rem),max(560px,calc((100vh - 2.5rem) * var(--sw) / var(--sh))));width:min(1120px,calc(100cqw - 2rem),max(560px,calc((100svh - 2.5rem) * var(--sw) / var(--sh))));margin:0 0 3.5rem}
+.ride-stage{position:relative;width:100%;aspect-ratio:var(--sw)/var(--sh)}
+.ride-frame{position:absolute;left:calc(var(--m) / var(--sw) * 100%);top:calc(var(--t) / var(--sh) * 100%);width:calc(540 / var(--sw) * 100%);height:calc(960 / var(--sh) * 100%);background:#ddd;overflow:hidden}
+.ride-frame video{display:block;width:100%;height:100%;object-fit:cover}
+#ride-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ride-toggle{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border:2px outset #f4f4f4;border-radius:0;background:#d4d0c8;color:#000;display:grid;place-items:center;padding:8px;cursor:pointer;z-index:2;touch-action:manipulation}
+.ride-toggle:hover{background:#e0e0e0}
+.ride-toggle:active{border-style:inset}
+.ride-toggle:focus-visible{outline:2px solid #000;outline-offset:3px}
+.ride-toggle svg{grid-area:1/1;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ride-toggle .ride-play-icon{fill:currentColor;stroke-width:1.3}
+.ride-toggle[data-playing=true] .ride-play-icon,.ride-toggle[data-playing=false] .ride-pause-icon{display:none}
+.ride-sound{right:56px}
+.ride-sound[data-muted=true] .ride-sound-on,.ride-sound[data-muted=false] .ride-sound-off{display:none}
+.refs{padding-left:1.5rem;margin:0;font-size:.98rem;line-height:1.5}
+.refs li{padding-left:.3rem;margin:0 0 .8rem}
+.refs li:target{background:#f0f0f0}
+footer{font-size:1rem;color:#595959;margin-top:3rem;padding-top:1.25rem;border-top:2px groove #c0c0c0}
+.back{margin:.6rem 0 0}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media(prefers-reduced-motion:reduce){.unfold{transition:none}}
+@media(max-width:600px){main{padding:2rem 1.1rem}.cup{flex-direction:column;align-items:flex-start}.cup svg{width:210px}}
+@media print{main{max-width:none;padding:0}body{font-size:12pt}.ride{display:none}.cite a,.term,a{color:inherit}.cup{break-inside:avoid}}
+</style></head><body><div class="sheet"><main aria-label="Experiential Immanence"><header class="hero"><h1>Experiential Immanence</h1><p class="back"><a href="index.html">Back to the ride</a></p></header>
+
+<section id="appearing" aria-labelledby="m1">
+<h2 id="m1"><span class="n">I</span>Appearing</h2>
+
+<div class="prop" id="p1">
+<h3><span class="pn">§1</span>Appearing as the point of departure</h3>
+<p>The inquiry begins with whatever presents itself. This is provisionally called <button type="button" class="term" data-term="appearing">appearing</button>. Perceiving, feeling, remembering, imagining, estimating, judging, and doubting are all admitted for consideration, and admitting them requires no assent to what they seem to disclose. This beginning is a methodological undertaking. It is not a proof that appearing exists as an ultimate reality. A denial of appearing can itself be treated as an appearance.<sup class="cite"><a href="#ref-4">[4]</a></sup> This is not taken to establish an indubitable foundation.</p>
+</div>
+
+<div class="prop" id="p2">
+<h3><span class="pn">§2</span>Experience and the scope of inquiry</h3>
+<p><button type="button" class="term" data-term="experience">Experience</button> is used here as a name for appearing. Using it posits no substance, no container for representations, and no experiencer distinct from what appears.<sup class="cite"><a href="#ref-3">[3]</a><a href="#ref-7">[7]</a><a href="#ref-9">[9]</a></sup> The inquiry attends to what appears and to how it appears. The how is termed its <button type="button" class="term" data-term="mode of givenness">mode of givenness</button>.<sup class="cite"><a href="#ref-6">[6]</a></sup> The term presupposes neither certainty nor a recipient. Does givenness require a recipient? That remains suspended. So do three further questions: whether experience exhausts reality, whether anything exists independently of it, and whether that distinction is ultimately adequate.</p>
+</div>
+
+<div class="prop" id="p3">
+<h3><span class="pn">§3</span>Phenomenal parity</h3>
+<p>No mode of appearing is excluded merely because it is doubtful, conceptual, imagined, or apparently mistaken. This is <button type="button" class="term" data-term="phenomenal parity">phenomenal parity</button>. It concerns admission to inquiry. It does not declare appearances identical, and it does not declare their claims equally credible. Perception may appear compelling, recollection uncertain, and imagination freely variable. These differences can be described, and they can inform estimates. They are not thereby accepted as guarantees of truth. Interpretation and <button type="button" class="term" data-term="conceptual apprehension">conceptual apprehension</button> are admitted in the same way. The inquiry requires no foundation of uninterpreted sensation.<sup class="cite"><a href="#ref-1">[1]</a><a href="#ref-11">[11]</a></sup></p>
+</div>
+</section>
+
+<section id="suspension" aria-labelledby="m2">
+<h2 id="m2"><span class="n">II</span>Suspension</h2>
+
+<div class="prop" id="p4">
+<h3><span class="pn">§4</span>Epoché</h3>
+<p>The governing practice is <button type="button" class="term" data-term="epoché">epoché</button>. It is the withholding of <button type="button" class="term" data-term="assent">assent</button> from claims presented as true, as known, or as settled accounts of reality. To suspend a claim is to affirm neither the claim nor its negation.<sup class="cite"><a href="#ref-10">[10]</a></sup> Suspension need not eliminate belief or conviction as they are felt. It need not eliminate the felt inevitability of assent either. Such feelings can themselves be treated as appearances. A claim can still guide deliberation and action. It does so as an <button type="button" class="term" data-term="estimate">estimate</button>, without being held as true or known outright.<sup class="cite"><a href="#ref-2">[2]</a><a href="#ref-8">[8]</a></sup> Suspension applies to claims of fallible knowledge as much as to claims of certainty. “I know this, though I may be wrong” still holds something as known. Is suspension complete, and is it consistently maintained? That too is open to examination.</p>
+</div>
+
+<div class="prop" id="p5">
+<h3><span class="pn">§5</span>Description and commitment</h3>
+<p>A description attempts to articulate what appears and how it appears. An ontological or epistemic commitment, by contrast, assents to a claim about what exists or what is known. The distinction lies in how a formulation is used. It does not divide reality into two separate regions. “There seems to be a cup” can function as a provisional description. It is not thereby an infallible report. Descriptions remain selective, interpretive, and revisable. Neither their wording nor their apparent fidelity exempts them from suspension.</p>
+</div>
+</section>
+
+<section id="example" aria-labelledby="sx">
+<h2 id="sx">An example</h2>
+<p>The example is a short scooter ride, seen from the passenger seat, on <a href="index.html">the first page</a>.</p>
+</section>
+
+<section id="how" aria-labelledby="m3">
+<h2 id="m3"><span class="n">III</span>How things appear</h2>
+
+<div class="prop" id="p6">
+<h3><span class="pn">§6</span>Intentionality and horizon</h3>
+<p>Appearing may have the character of being of something, or about something. Where it does, this directedness is termed <button type="button" class="term" data-term="intentionality">intentionality</button>. What appears is considered in the manner in which it appears: as perceived, remembered, imagined, anticipated, or otherwise presented. Take a cup. Its visible side may be seen while its reverse is implicit, without being seen. Such implicit aspects, together with the further appearances that are anticipated, constitute a <button type="button" class="term" data-term="horizon">horizon</button>.<sup class="cite"><a href="#ref-6">[6]</a></sup> Neither directedness nor horizon is taken to settle whether an independent object exists. And the inquiry does not require every appearance to have an object.</p>
+<div class="cup">
+<svg viewBox="0 0 300 262" role="img" aria-labelledby="cup-t"><title id="cup-t">A cup seen from above. The half facing the viewer is drawn solid and labelled seen. The far half is dashed and labelled implicit.</title>
+<text x="140" y="26" text-anchor="middle" class="cup-t-open">implicit</text>
+<path class="cup-far" d="M60 128 A80 80 0 0 1 220 128"/>
+<path class="cup-near" d="M60 128 A80 80 0 0 0 220 128"/>
+<path class="cup-near" d="M220 128 h22 a14 14 0 0 1 0 28 h-13"/>
+<text x="140" y="236" text-anchor="middle" class="cup-t-ink">seen</text>
+<path class="cup-eye" d="M140 244 l-9 14 h18 z"/>
+</svg>
+<p class="cup-cap">A cup from above, viewed from the triangle. The near side is seen; the reverse is implicit.</p>
+</div>
+</div>
+
+<div class="prop" id="p7">
+<h3><span class="pn">§7</span>Manifestation and reflection</h3>
+<p>An experience can be described as occurring without any separate act of observing it. <button type="button" class="term" data-term="pre-reflective manifestation">Pre-reflective manifestation</button> is a provisional name for this character. It does not establish that every experience knows itself or contains an inner witness.<sup class="cite"><a href="#ref-5">[5]</a><a href="#ref-12">[12]</a><a href="#ref-13">[13]</a></sup> Reflection occurs where experience itself becomes what is attended to. Reflection is not taken to supply guaranteed access to an unchanged original, since attending, recollecting, and describing may alter what is presented afterwards. Neither reflection nor apparent immediacy is taken to confer infallibility.</p>
+</div>
+
+<div class="prop" id="p8">
+<h3><span class="pn">§8</span>Perspective and subject</h3>
+<p>Where a <button type="button" class="term" data-term="first-personal character">first-personal character</button> appears, it is described without concluding that a <button type="button" class="term" data-term="substantial subject">substantial subject</button> underlies it.<sup class="cite"><a href="#ref-13">[13]</a><a href="#ref-14">[14]</a></sup> Bodily orientation, a sense of ownership, and an explicit thought of “I” need not be treated as one and the same appearance. How they relate remains a matter for inquiry. The presence of an “I”-thought is not taken to establish an independently existing experiencer. Its absence is not taken to establish experience without a subject. A substantial self, a subjectless reality, and other interpretations receive no assent. None of them is a conclusion of the system. Another person’s face, voice, and movements may appear, and they may appear expressive of experience. Whether that person has experience of their own remains suspended. <button type="button" class="term" data-term="practical reliance">Practical reliance</button> does not depend on settling it. On an estimate formed from how they appear, one can go on treating them as someone.</p>
+</div>
+
+<div class="prop" id="p9">
+<h3><span class="pn">§9</span>Co-givenness and field</h3>
+<p>Where appearances present themselves together, their <button type="button" class="term" data-term="co-givenness">co-givenness</button> can be described. <button type="button" class="term" data-term="phenomenal field">Phenomenal field</button> names this apparent togetherness and the differences within it. The name posits no container, no unifying entity, and no necessary unity of all experience. Nearness, distance, depth, separation, and difference are considered as they appear. Describing them is not taken to settle whether anything exists independently, or how it would be related. Fragmentation, discontinuity, and uncertainty about what belongs together are equally admissible.</p>
+</div>
+
+<div class="prop" id="p10">
+<h3><span class="pn">§10</span>Temporality and recollection</h3>
+<p>Succession, duration, persistence, anticipation, and recollection are each considered in their own mode of appearing. A recollection is admitted as recollection, without assent to the past it presents. An anticipation is admitted without assent to the future it projects. Apparent recurrence is not taken to establish a necessary law, though it may inform an estimate. Historical claims remain suspended, whether they are offered as true or as known. This includes claims about the inquiry’s own earlier stages. The suspension does not establish that such claims are false. Nor does it demonstrate that historical knowledge is impossible.</p>
+</div>
+</section>
+
+<section id="living" aria-labelledby="m4">
+<h2 id="m4"><span class="n">IV</span>Living with it</h2>
+
+<div class="prop" id="p11">
+<h3><span class="pn">§11</span>Reasoning, evidence, and explanation</h3>
+<p>Descriptions, arguments, evidence, and explanations can all be examined and provisionally employed. Their differences are kept. An argument offers reasons. Evidence bears on a claim. An explanation proposes grounds, causes, mechanisms, or conditions. That they occur as appearances is not, by itself, taken to validate or invalidate them. Further inquiry may change the estimates of which account is better supported, and suspension does not end because of it. Experiential Immanence does not claim to refute competing accounts of reality. Nor does it claim privileged access to truth for itself. Its concepts, inferences, and formulations remain answerable to criticism and revision.</p>
+</div>
+
+<div class="prop" id="p12">
+<h3><span class="pn">§12</span>Reflexivity and practice</h3>
+<p>Suspension applies to every claim to truth or knowledge. That includes the claims made on behalf of this system, which are held only as estimates. “Only experience exists,” “nothing can be known,” and “suspension is the uniquely correct method” receive no exemption. Practical reliance does not end suspension. What recollections and perceptions present may inform estimates that guide action, without being held as true or known outright. Remembered success may raise the estimate placed on memory. But it supplies no independent guarantee of memory’s reliability. Such reliance remains revisable in light of further appearances. The practice invites one to examine how an anticipation becomes a settled future, how an interpretation comes to be held as fact, how an evaluation becomes a settled verdict, or how a sense of self becomes an asserted entity. Pain, distress, conviction, and resistance need not disappear, and they need not lose their force. The system promises neither relief nor liberation. It supplies no complete rule for reasonable or ethical action.</p>
+</div>
+
+<div class="prop" id="p13">
+<h3><span class="pn">§13</span>Practical reliance and holding as settled</h3>
+<p>In outward conduct, practical reliance need not differ from ordinary belief. The difference lies in how a claim is held: as an estimate that guides action, not as true or known outright, and not as a settled account of reality. When what appears later goes against an estimate, the estimate is revised. It is not refuted, since it did not hold the claim as true.<sup class="cite"><a href="#ref-2">[2]</a><a href="#ref-10">[10]</a></sup></p>
+
+<p>Take the claim that the road continues after the bend. It can be held as true: “it continues”, or, fallibly, “it continues, though I could be wrong”. Suspension withholds this. It can be left suspended: “does it continue?”, with neither the claim nor its negation affirmed. Or it can be held as an estimate formed from the road seen so far: “it probably continues”. This estimate guides action. If the road ends after the bend, a claim held as true is refuted, while the estimate is only revised.</p>
+
+<p>Suspension does not require a contrary action. It does not require conviction to disappear, or constant verbal reminders of uncertainty. What it invites is a change in how things are taken. What appears compelling may keep its force while being held only as an estimate, not as true or known, not even fallibly. Such a change is a possibility of the practice. It is not a necessary result, and it is not a test of the practice’s success. The practice is undertaken for the sake of such a change. That it produces one is not claimed.</p>
+</div>
+</section>
+
+<section aria-labelledby="references">
+    <h2 id="references">Related reading</h2>
+    <ol class="refs">
+      <li id="ref-1">Carnap, R. (1928). <i>Der logische Aufbau der Welt</i>. Berlin: Weltkreis-Verlag, sections 64&ndash;65. <a href="https://plato.stanford.edu/entries/carnap/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-2">Cicero (45 BCE). <i>Academica</i>, II.99&ndash;104. <a href="https://plato.stanford.edu/entries/carneades/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-3">Deleuze, G. (1995). L’immanence : une vie… <i>Philosophie</i>, 47, 3&ndash;7.</li>
+      <li id="ref-4">Descartes, R. (1641). <i>Meditationes de prima philosophia</i>. Paris: Michel Soly, Meditation II. <a href="https://plato.stanford.edu/entries/descartes-epistemology/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-5">Henry, M. (1963). <i>L’essence de la manifestation</i>. Paris: Presses Universitaires de France.</li>
+      <li id="ref-6">Husserl, E. (1913). <i>Ideen zu einer reinen Phänomenologie und phänomenologischen Philosophie</i>, Book I. Halle: Niemeyer, sections 33, 49 and 57. <a href="https://plato.stanford.edu/entries/husserl/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-7">James, W. (1904). Does &lsquo;consciousness&rsquo; exist? <i>Journal of Philosophy, Psychology and Scientific Methods</i>, 1(18), 477&ndash;491. <a href="https://psychclassics.yorku.ca/James/consciousness.htm" target="_blank" rel="noopener">Full text</a></li>
+      <li id="ref-8">Jeffrey, R. (1992). <i>Probability and the Art of Judgment</i>. Cambridge: Cambridge University Press. <a href="https://philpapers.org/rec/JEFPAT-2" target="_blank" rel="noopener">PhilPapers</a></li>
+      <li id="ref-9">Russell, B. (1921). <i>The Analysis of Mind</i>. London: George Allen &amp; Unwin, Lecture I. <a href="https://en.wikisource.org/wiki/The_Analysis_of_Mind/Lecture_I" target="_blank" rel="noopener">Full text</a></li>
+      <li id="ref-10">Sextus Empiricus (2nd or 3rd century CE). <i>Outlines of Pyrrhonism</i>, I.19&ndash;30 and I.226&ndash;231. <a href="https://plato.stanford.edu/entries/sextus-empiricus/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-11">Tillemans, T. (2011, rev. 2026). Dharmakīrti. In <i>Stanford Encyclopedia of Philosophy</i>. <a href="https://plato.stanford.edu/entries/dharmakiirti/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-12">Williams, P. (1998). <i>The Reflexive Nature of Awareness: A Tibetan Madhyamaka Defence</i>. Richmond: Curzon.</li>
+      <li id="ref-13">Zahavi, D. (2005). <i>Subjectivity and Selfhood: Investigating the First-Person Perspective</i>. Cambridge, MA: MIT Press. <a href="https://plato.stanford.edu/entries/self-consciousness-phenomenological/" target="_blank" rel="noopener">Stanford Encyclopedia</a></li>
+      <li id="ref-14">Zöller, G. (1992). Lichtenberg and Kant on the subject of thinking. <i>Journal of the History of Philosophy</i>, 30(3), 417&ndash;441. <a href="https://muse.jhu.edu/article/226209/summary" target="_blank" rel="noopener">Project MUSE</a></li>
+    </ol>
+  </section>
+<footer>Experiential Immanence · Edvin Joseph, 2026</footer></main></div><script>
+const terms={"appearing":"The provisional name for whatever presents itself, doubting and denying included. Its use establishes no ultimate reality and no indubitable foundation.","experience":"A name for appearing. Its use posits no separate experiencer, and it offers no account of everything that exists.","mode of givenness":"How something appears: as perceived, remembered, imagined, or anticipated, for example. The term presupposes neither certainty nor a recipient. Whether givenness requires a recipient remains suspended.","phenomenal parity":"Equal admission to inquiry. It does not declare every claim equally credible, or every appearance equally compelling.","conceptual apprehension":"Appearing as meaningful, or as something of a kind. It requires no underlying layer of uninterpreted sensation.","epoché":"The practice of suspending every claim to truth or knowledge, the claims of this system included. Neither the claim nor its negation is affirmed. Suspension is compatible with estimates, in which a claim is held as better or worse supported rather than as true. This use of the term is stipulated by the system.","assent":"Holding a claim as true or known outright, whether fallibly or with certainty. It is distinct from entertaining a claim, from estimating how well what appears supports it, and from belief or conviction as they are felt.","estimate":"A graded assessment, short of certainty, of how well what appears supports a claim. A claim held as an estimate is held as better or worse supported, not as true or false. The assessment itself is held in the same way, and it remains revisable.","intentionality":"The character of appearing as being of or about something, where it has that character. It is not taken to establish an independently existing object.","horizon":"Implicit or anticipated aspects, considered in their own mode rather than treated as presented now.","pre-reflective manifestation":"A provisional description of experience occurring without a separate act of observing it. It is not a claim to self-knowledge.","first-personal character":"An apparent perspective or sense of ownership, where one is present. Describing it establishes no separate owner.","substantial subject":"An experiencer posited as existing in its own right, prior to or independent of appearing, whether one’s own or another’s. Its existence and its absence both remain suspended.","co-givenness":"Apparent togetherness, where it occurs. No necessary or universal unity is asserted.","phenomenal field":"A name for apparent togetherness and difference. It posits no container, no unifying entity, and no necessary unity of all experience.","practical reliance":"Acting on an estimate formed from what appears, without holding the claim as true or known outright. The estimate remains revisable in light of further appearances."};
+(function () {
+  "use strict";
+  // a term's meaning opens up inside the page: the page splits below the term's line,
+  // what follows slides down, and the meaning shows in the opening
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var open = null, count = 0;
+
+  // where the line holding the term ends, so the split falls between lines
+  function lineEnd(btn) {
+    var rects = btn.getClientRects(), bottom = rects[rects.length - 1].bottom;
+    for (var n = btn.nextSibling; n; n = n.nextSibling) {
+      if (n.nodeType === 3) {
+        for (var i = 0; i < n.length; i++) {
+          if (/\s/.test(n.data[i])) continue;
+          var r = document.createRange();
+          r.setStart(n, i); r.setEnd(n, i + 1);
+          var box = r.getClientRects()[0];
+          if (box && box.top >= bottom - 1) return { node: n, offset: i };
+        }
+      } else if (n.nodeType === 1) {
+        var el = n.getClientRects()[0];
+        if (el && el.top >= bottom - 1) return { before: n };
+      }
+    }
+    return null;
+  }
+  function shut(gap, now) {
+    gap._btn.setAttribute("aria-expanded", "false");
+    gap.classList.remove("is-open");
+    var gone = false;
+    function done() {
+      if (gone) return;
+      gone = true;
+      var li = gap.parentNode;
+      if (li) { gap.remove(); li.normalize(); }
+    }
+    if (now || reduce.matches) return done();
+    gap.style.height = gap.scrollHeight + "px";
+    void gap.offsetHeight;
+    gap.style.height = "0px";
+    gap.addEventListener("transitionend", done, { once: true });
+    setTimeout(done, 800);
+  }
+  function split(btn) {
+    var at = lineEnd(btn), li = btn.parentNode;
+    var gap = document.createElement("div"), inner = document.createElement("div"), word = document.createElement("span");
+    gap.className = "unfold";
+    gap.id = "unfold-" + (++count);
+    gap._btn = btn;
+    inner.className = "unfold-inner";
+    word.className = "unfold-term";
+    word.textContent = btn.dataset.term;
+    inner.append(word, document.createTextNode(" " + terms[btn.dataset.term]));
+    gap.append(inner);
+    if (!at) li.append(gap);
+    else if (at.before) li.insertBefore(gap, at.before);
+    else li.insertBefore(gap, at.node.splitText(at.offset));
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-controls", gap.id);
+    gap.addEventListener("click", function () { if (open === gap) { shut(gap); open = null; } });
+    gap.classList.add("is-open");
+    if (reduce.matches) { gap.style.height = "auto"; return gap; }
+    var height = gap.scrollHeight;
+    gap.style.height = height + "px";
+    gap.addEventListener("transitionend", function () {
+      if (open !== gap) return;
+      gap.style.height = "auto";
+      var b = gap.getBoundingClientRect().bottom;
+      if (b > window.innerHeight) window.scrollBy({ top: b - window.innerHeight + 24, behavior: "smooth" });
+    }, { once: true });
+    return gap;
+  }
+
+  document.querySelectorAll("[data-term]").forEach(function (btn) {
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", function () {
+      var same = open && open._btn === btn;
+      if (open) { shut(open); open = null; }
+      if (!same) open = split(btn);
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && open) { var btn = open._btn; shut(open); open = null; btn.focus(); }
+  });
+  // a new width moves the line breaks, so an open split closes rather than land mid-line
+  var lastWidth = document.documentElement.clientWidth;
+  window.addEventListener("resize", function () {
+    var w = document.documentElement.clientWidth;
+    if (w !== lastWidth && open) { shut(open, true); open = null; }
+    lastWidth = w;
+  });
+})();
+</script></body></html>
