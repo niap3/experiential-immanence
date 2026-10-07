@@ -1,464 +1,65 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Experiential Immanence</title><meta name="description" content="Experiential Immanence: start from whatever appears, leave every claim to truth or knowledge open, and act on estimates instead."><meta property="og:type" content="website"><meta property="og:title" content="Experiential Immanence"><meta property="og:description" content="Experiential Immanence: start from whatever appears, leave every claim to truth or knowledge open, and act on estimates instead."><meta property="og:url" content="https://niap3.github.io/experiential-immanence/"><meta property="og:image" content="https://niap3.github.io/experiential-immanence/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Experiential Immanence: the title beside a still from a scooter ride"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ctext x='16' y='24' font-family='Georgia,serif' font-size='24' text-anchor='middle' fill='%23fff'%3E%C2%A7%3C/text%3E%3C/svg%3E"><style>
-*{box-sizing:border-box}
-body{margin:0;color:#000;background:#fff;font:17px/1.5 "Times New Roman",Times,serif}
-main{max-width:46rem;margin:auto;padding:4rem 1.5rem}
-.sheet{container-type:inline-size}
-a{color:#0000ee}
-button{font:inherit}
-button:focus-visible,a:focus-visible{outline:2px solid #000;outline-offset:4px}
-.hero{margin:0 0 2.6rem}
-.hero h1{font-size:2.2em;font-weight:bold;line-height:1.15;margin:0;overflow-wrap:break-word}
-section>h2{font-size:1.5em;font-weight:bold;line-height:1.25;margin:2em 0 .6em;padding-top:.9em;border-top:2px groove #c0c0c0}
-section>h2 .n{margin-right:.3em}
-section>h2 .n::after{content:"."}
-.prop h3{font-size:1.17em;font-weight:bold;line-height:1.35;margin:1.8em 0 .4em}
-.prop h3 .pn{margin-right:.4em}
-.prop>p{margin:0 0 1rem}
-.term{background:none;border:0;padding:0;font:inherit;color:#0000ee;text-decoration:underline;cursor:pointer}
-.term[aria-expanded=true]{color:#c00000}
-.cite{font-size:.72em;line-height:0;margin-left:.1em}
-.cite a{text-decoration:none}
-.cite a:hover{text-decoration:underline}
-.unfold{display:block;height:0;overflow:hidden;margin:.4em 0 .6em;background:#f4f4f4;border:1px solid #808080;transition:height .55s cubic-bezier(.2,.75,.25,1);cursor:pointer}
-.unfold-inner{padding:.6em .85em;line-height:1.45}
-.unfold-term{font-weight:bold;margin-right:.4em}
-.unfold-term::after{content:"."}
-.cup{display:flex;align-items:center;gap:1.2rem;margin:.6rem 0 .4rem}
-.cup svg{flex:none;width:230px;height:auto}
-.cup-near{fill:none;stroke:#000;stroke-width:2.6;stroke-linecap:round}
-.cup-far{fill:none;stroke:#0000c0;stroke-width:2.4;stroke-dasharray:7 6}
-.cup-eye{fill:#000}
-.cup-t-open{fill:#0000c0;font:italic 21px "Times New Roman",Times,serif}
-.cup-t-ink{fill:#000;font:21px "Times New Roman",Times,serif}
-.cup-cap{margin:0;font-size:.98rem;color:#595959}
-.ride{--sw:1340;--sh:1220;--m:400;--t:120;position:relative;left:50%;transform:translateX(-50%);width:min(1120px,calc(100cqw - 2rem),max(560px,calc((100vh - 2.5rem) * var(--sw) / var(--sh))));width:min(1120px,calc(100cqw - 2rem),max(560px,calc((100svh - 2.5rem) * var(--sw) / var(--sh))));margin:0 0 3.5rem}
-.ride-stage{position:relative;width:100%;aspect-ratio:var(--sw)/var(--sh)}
-.ride-frame{position:absolute;left:calc(var(--m) / var(--sw) * 100%);top:calc(var(--t) / var(--sh) * 100%);width:calc(540 / var(--sw) * 100%);height:calc(960 / var(--sh) * 100%);background:#ddd;overflow:hidden}
-.ride-frame video{display:block;width:100%;height:100%;object-fit:cover}
-#ride-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.ride-toggle{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border:2px outset #f4f4f4;border-radius:0;background:#d4d0c8;color:#000;display:grid;place-items:center;padding:8px;cursor:pointer;z-index:2;touch-action:manipulation}
-.ride-toggle:hover{background:#e0e0e0}
-.ride-toggle:active{border-style:inset}
-.ride-toggle:focus-visible{outline:2px solid #000;outline-offset:3px}
-.ride-toggle svg{grid-area:1/1;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.ride-toggle .ride-play-icon{fill:currentColor;stroke-width:1.3}
-.ride-toggle[data-playing=true] .ride-play-icon,.ride-toggle[data-playing=false] .ride-pause-icon{display:none}
-.ride-sound{right:56px}
-.ride-sound[data-muted=true] .ride-sound-on,.ride-sound[data-muted=false] .ride-sound-off{display:none}
-.refs{padding-left:1.5rem;margin:0;font-size:.98rem;line-height:1.5}
-.refs li{padding-left:.3rem;margin:0 0 .8rem}
-.refs li:target{background:#f0f0f0}
-footer{font-size:1rem;color:#595959;margin-top:3rem;padding-top:1.25rem;border-top:2px groove #c0c0c0}
-.look{margin:3rem 0 2.5rem}.look p{font-size:1.7rem;line-height:1.4;margin:0 0 2.1rem}.look p.last{color:#595959}.more{font-size:1.2rem;margin:0 0 1rem}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-@media(prefers-reduced-motion:reduce){.unfold{transition:none}}
-@media(max-width:600px){main{padding:2rem 1.1rem}.cup{flex-direction:column;align-items:flex-start}.cup svg{width:210px}}
-@media print{main{max-width:none;padding:0}body{font-size:12pt}.ride{display:none}.cite a,.term,a{color:inherit}.cup{break-inside:avoid}}
-</style></head><body><div class="sheet"><main aria-label="Experiential Immanence"><header class="hero"><h1>Experiential Immanence</h1></header>
-<figure class="ride" id="ride" aria-label="An example: a scooter ride, with notes naming what appears, claims left open as questions, estimates, and an action taken on an estimate">
-  <div class="ride-stage">
-    <div class="ride-frame">
-      <video id="ride-video" muted loop playsinline preload="none" poster="pov-ride-poster.jpg" aria-label="Recorded passenger viewpoint from behind a scooter rider"><source src="pov-ride-compressed.mp4" type="video/mp4"></video>
-      <button id="ride-sound" class="ride-toggle ride-sound" type="button" aria-label="Turn sound on" aria-controls="ride-video" data-muted="true">
-        <svg class="ride-sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>
-        <svg class="ride-sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
-      </button>
-      <button id="ride-toggle" class="ride-toggle" type="button" aria-label="Play video and animation" aria-controls="ride-video" data-playing="false">
-        <svg class="ride-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
-        <svg class="ride-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7Z"/></svg>
-      </button>
-    </div>
-    <canvas id="ride-canvas" aria-hidden="true"></canvas>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Experiential Immanence</title>
+<style>
+  html, body { margin: 0; background: #fff; color: #000; }
+  body { font: 17px/1.5 "Times New Roman", Times, serif; }
+  main { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1rem; box-sizing: border-box; }
+  .frame { position: relative; height: min(88vh, calc((100vw - 2rem) * 16 / 9)); height: min(88svh, calc((100vw - 2rem) * 16 / 9)); aspect-ratio: 9 / 16; background: #ddd; overflow: hidden; }
+  .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .btn { position: absolute; bottom: 12px; width: 40px; height: 40px; border: 1px solid #fff5; border-radius: 50%; background: #211d1999;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: #fff; display: grid; place-items: center; cursor: pointer; padding: 0; }
+  .btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .btn:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+  #play { right: 12px; } #sound { right: 60px; }
+  #play[data-playing="true"] .i-play, #play[data-playing="false"] .i-pause,
+  #sound[data-muted="true"] .i-on, #sound[data-muted="false"] .i-off { display: none; }
+  .excerpt { max-width: 34rem; margin: 3rem auto 0; }
+  .excerpt:empty { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="frame">
+    <video id="v" muted loop playsinline preload="metadata" poster="pov-ride-poster.jpg" aria-label="A ride on a scooter, seen from the passenger seat">
+      <source src="pov-ride-compressed.mp4" type="video/mp4">
+    </video>
+    <button class="btn" id="sound" type="button" aria-label="Turn sound on" data-muted="true">
+      <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>
+      <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+    </button>
+    <button class="btn" id="play" type="button" aria-label="Play" data-playing="false">
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7Z"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+    </button>
   </div>
-  <figcaption class="sr-only"><p>An example from a scooter ride. The video shows what is seen. Notes around it name other things that appear, each labelled by kind.</p><p>The notes, in order:</p><ol><li>seen: orange sky</li><li>heard: engine, wind</li><li>felt: cold wind on the skin</li><li>seen: the road ahead</li><li>claim: the road continues after the bend. It turns into a question, and its dashed line leaves the frame: the claim is left open. Then “estimate: probably” is added: an estimate formed from the road seen so far.</li><li>seen: a bend coming up</li><li>thought: “how much longer?”</li><li>remembered: this road, another evening</li><li>claim: someone sits behind all this, watching. It turns into a question and is left open. No estimate is added either way.</li><li>claim: she feels the wind too. Her body is seen; whether she feels anything is left open. “estimate: probably” is added, based on how she appears.</li><li>felt: calm, for a moment</li><li>felt: leaning into the turn. An arrow from the bend to the lean reads “acting on the estimate”.</li><li>(these notes could be wrong too)</li></ol></figcaption>
-</figure>
-<section class="look" aria-label="Five lines">
-<p>Look.</p>
-<p>The road, the wind, a thought, a memory. All of it appears.</p>
-<p>Names appear too. They are not under what is seen, or above it. They are beside it.</p>
-<p>When a thought says “this is how it is”, let it appear. Do not hold on to it.</p>
-<p class="last">These words are also only words.</p>
-</section>
-<p class="more"><a href="system.html">The system, in words</a></p>
-<footer>Experiential Immanence · Edvin Joseph, 2026</footer></main></div><script>
+  <section class="excerpt"><!-- your excerpt goes here --></section>
+</main>
+<script>
 (function () {
-  "use strict";
-
-  var figure = document.getElementById("ride");
-  var video = document.getElementById("ride-video");
-  var canvas = document.getElementById("ride-canvas");
-  var toggle = document.getElementById("ride-toggle");
-  var sound = document.getElementById("ride-sound");
-  var ctx = canvas.getContext("2d");
-  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  var INK = "#000", PAPER = "rgba(255,255,255,.9)", OPEN = "#0000c0", EST = "#007000", ACT = "#c00000";
-  var STILL = 20.2;
-  var time = reducedMotion.matches ? STILL : 0;
-  var playing = false, manualPaused = false, visible = false, soundWanted = true, chosen = false;
-  var frame = 0, requestId = 0, ratio = 1, scale = 1;
-  // everything is measured in the video's own units (540 x 960); the margins around it hold the notes
-  var L, SW, SH;
-
-  // side: l (left margin) or r (right margin); y: first line, in frame units;
-  // to: a place in the picture, given only where the appearing has one
-  var notes = [
-    { t: [0.4, 3.7], side: "r", y: 250, text: "seen: orange sky", to: [250, 170] },
-    { t: [1.2, 22], side: "r", y: 440, text: "heard: engine,\nwind" },
-    { t: [3, 11.2], side: "r", y: 690, text: "felt: cold wind\non the skin" },
-    { t: [3.9, 21.8], side: "r", y: 250, text: "seen: the road\nahead", to: [320, 330] },
-    { t: [9.6, 22], side: "l", y: 190, text: "seen: a bend\ncoming up", to: "far", bare: true },
-    { t: [9.8, 13.8], side: "l", y: 660, text: "thought:\n“how much longer?”" },
-    { t: [12.2, 18.6], side: "r", y: 690, text: "remembered:\nthis road,\nanother evening" },
-    { t: [15.4, 22.2], side: "l", y: 660, text: "felt: calm,\nfor a moment" },
-    { t: [16.6, 22], side: "l", y: 500, text: "felt: leaning\ninto the turn" },
-    { t: [19.2, 22.5], side: "l", y: 870, text: "(these notes\ncould be\nwrong too)" }
-  ];
-  var BEND = notes[4], LEAN = notes[8];
-  var TAG = { side: "l", y: 40, text: "inside the frame:\nwhat is seen" };
-  // a claim is first written as a statement; then its full stop becomes a question mark and its
-  // line breaks into dashes and leaves the frame. Held open, never crossed out.
-  // where something seen bears on it (the road so far, her hand on the grip), an estimate follows the
-  // question: "estimate: probably". The someone behind the seeing gets no estimate; it stays a bare question.
-  // colours: notes in black (what appears), claims in blue (left open), estimates in green, acting on them in red
-  var claims = [
-    { t: [6.2, 22.2], turn: 8.2, guess: 10.2, text: "claim: the road continues after the bend", from: "far", at: 190, edge: "top", ring: true },
-    { t: [13.4, 22.4], turn: 15.2, text: "claim: someone sits behind all this, watching", from: [270, 960], at: 270, edge: "bottom" },
-    { t: [14, 22.4], turn: 16, guess: 17.8, text: "claim: she feels\nthe wind too", from: "hand", y: 870, edge: "right", ring: true }
-  ];
-  var GUESS = "estimate: probably";
-  // the anticipated bend guides the lean, while the road beyond it stays a question
-  var RELY = { t: [17.2, 22], text: "acting on the estimate" };
-  // where things are in the picture, second by second (time, x, y): the road's far end, her hand on the grip
-  var TRACKS = {
-    far: [[6.2, 115, 150], [7, 160, 175], [8, 195, 232], [9, 200, 262], [10, 185, 265], [11, 145, 115],
-      [12, 130, 110], [13, 175, 140], [14, 180, 128], [15, 190, 124], [16, 200, 113], [17, 212, 88],
-      [18, 130, 98], [19, 175, 152], [20, 170, 250], [21, 160, 232], [22, 175, 205]],
-    hand: [[13, 380, 640], [14, 395, 635], [15, 400, 640], [16, 385, 620], [17, 355, 590], [18, 360, 580],
-      [19, 340, 620], [20, 330, 640], [21, 370, 610], [22, 375, 560]]
-  };
-  function track(keys, t) {
-    if (t <= keys[0][0]) return [keys[0][1], keys[0][2]];
-    for (var i = 1; i < keys.length; i++) {
-      if (t <= keys[i][0]) {
-        var a = keys[i - 1], b = keys[i], k = (t - a[0]) / (b[0] - a[0]);
-        return [a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k];
-      }
-    }
-    return [keys[keys.length - 1][1], keys[keys.length - 1][2]];
+  var v = document.getElementById("v"), play = document.getElementById("play"), sound = document.getElementById("sound");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)"), userPaused = false;
+  function sync() {
+    play.dataset.playing = String(!v.paused);
+    play.setAttribute("aria-label", v.paused ? "Play" : "Pause");
+    sound.dataset.muted = String(v.muted);
+    sound.setAttribute("aria-label", v.muted ? "Turn sound on" : "Turn sound off");
   }
-  function place(p) { return typeof p === "string" ? track(TRACKS[p], time) : p; }
-  // stops a line short of a point, so a small ring can sit round it
-  function shy(from, to, r) {
-    var d = Math.hypot(to[0] - from[0], to[1] - from[1]) || 1;
-    return [to[0] - (to[0] - from[0]) / d * r, to[1] - (to[1] - from[1]) / d * r];
+  function start() { var p = v.play(); if (p && p.catch) p.catch(function () { v.muted = true; v.play().catch(function () {}); }); }
+  play.addEventListener("click", function () { if (v.paused) { userPaused = false; start(); } else { userPaused = true; v.pause(); } });
+  sound.addEventListener("click", function () { v.muted = !v.muted; if (!v.muted) { v.volume = 1; userPaused = false; start(); } sync(); });
+  ["play", "pause", "volumechange"].forEach(function (e) { v.addEventListener(e, sync); });
+  // starts silently when it comes into view, as browsers allow; sound waits for the speaker button
+  if ("IntersectionObserver" in window && !reduce.matches) {
+    new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting) { if (!userPaused) start(); } else v.pause();
+    }, { threshold: 0.4 }).observe(v);
   }
-
-  function clamp(n) { return Math.max(0, Math.min(1, n)); }
-  function ease(n) { n = clamp(n); return n * n * (3 - 2 * n); }
-  function fx(x) { return L.M + x; }
-  function fy(y) { return L.T + y; }
-  function font(size) { return size + "px 'Times New Roman', Times, serif"; }
-
-  function bezier(a, b, bend) {
-    bend = 0;
-    var dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy) || 1;
-    var cx = (a[0] + b[0]) / 2 - dy / len * bend, cy = (a[1] + b[1]) / 2 + dx / len * bend, pts = [];
-    for (var i = 0; i <= 28; i++) {
-      var t = i / 28, u = 1 - t;
-      pts.push([u * u * a[0] + 2 * u * t * cx + t * t * b[0], u * u * a[1] + 2 * u * t * cy + t * t * b[1]]);
-    }
-    return pts;
-  }
-  function partial(pts, reveal) {
-    if (reveal >= 1) return pts;
-    var total = 0, i;
-    for (i = 1; i < pts.length; i++) total += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-    var left = total * reveal, out = [pts[0]];
-    for (i = 1; i < pts.length && left > 0; i++) {
-      var d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]) || 1, k = Math.min(1, left / d);
-      out.push([pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * k, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * k]);
-      left -= d;
-    }
-    return out;
-  }
-  function trace(pts, seed, pass) {
-    ctx.beginPath();
-    for (var i = 0; i < pts.length; i++) {
-      var x = pts[i][0];
-      var y = pts[i][1];
-      if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
-    }
-  }
-  // a pencil line: two slightly different passes, over a paper halo where it crosses the picture
-  function pencil(pts, reveal, o) {
-    o = o || {};
-    if (reveal <= 0) return;
-    pts = partial(pts, reveal);
-    if (pts.length < 2) return;
-    var w = o.width || 2.2, seed = o.seed || 1;
-    ctx.save();
-    ctx.lineCap = "round"; ctx.lineJoin = "round";
-    if (o.halo) { ctx.strokeStyle = PAPER; ctx.lineWidth = w + 5; trace(pts, seed, 0); ctx.stroke(); }
-    ctx.setLineDash(o.dash || []);
-    ctx.strokeStyle = o.color || INK;
-    ctx.globalAlpha *= 0.9; ctx.lineWidth = w; trace(pts, seed, 0); ctx.stroke();
-    ctx.restore();
-  }
-  function ring(c, r, reveal, seed, color) {
-    var pts = [];
-    for (var i = 0; i <= 24; i++) {
-      var a = i / 24 * Math.PI * 2;
-      pts.push([c[0] + Math.cos(a) * r, c[1] + Math.sin(a) * r]);
-    }
-    pencil(pts, reveal, { halo: true, width: 1.8, seed: seed, color: color });
-  }
-
-  function wrap(text, width, size) {
-    ctx.font = font(size);
-    var out = [];
-    text.split("\n").forEach(function (para) {
-      var line = "";
-      para.split(" ").forEach(function (word) {
-        var next = line ? line + " " + word : word;
-        if (line && ctx.measureText(next).width > width) { out.push(line); line = word; }
-        else line = next;
-      });
-      out.push(line);
-    });
-    return out;
-  }
-  // writes the lines as if by hand, left to right; returns where each line ends
-  function write(lines, x, y, align, size, reveal, lh, color) {
-    ctx.save();
-    ctx.font = font(size); ctx.fillStyle = color || INK; ctx.textBaseline = "alphabetic";
-    var widths = lines.map(function (l) { return ctx.measureText(l).width; });
-    var done = widths.reduce(function (a, b) { return a + b; }, 0) * clamp(reveal), ends = [];
-    for (var i = 0; i < lines.length; i++) {
-      var w = widths[i], ly = y + i * lh;
-      var left = align === "right" ? x - w : align === "center" ? x - w / 2 : x;
-      ends.push([left + w, ly]);
-      if (done <= 0) continue;
-      var show = Math.min(w, done);
-      done -= w;
-      ctx.save(); ctx.beginPath(); ctx.rect(left - 4, ly - size * 1.1, show + 8, size * 1.6); ctx.clip();
-      ctx.fillText(lines[i], left, ly);
-      ctx.restore();
-    }
-    ctx.restore();
-    return ends;
-  }
-  // how wide a margin note may run, and how far it sits from the frame
-  function margin() { return L.narrow ? 206 : L.M - 60; }
-  function gap() { return L.narrow ? 20 : 26; }
-  function spot(n) {
-    var lines = wrap(n.text, margin(), L.F), y = fy(n.y);
-    return {
-      lines: lines, y: y,
-      x: n.side === "l" ? L.M - gap() : L.M + 540 + gap(),
-      align: n.side === "l" ? "right" : "left",
-      top: y - L.F * 0.75, bottom: y + (lines.length - 1) * L.lh + L.F * 0.3
-    };
-  }
-
-  function drawFrame() {
-    var x0 = fx(-5), y0 = fy(-5), x1 = fx(545), y1 = fy(965);
-    ctx.save(); ctx.strokeStyle = INK; ctx.lineWidth = 1.5; ctx.strokeRect(x0, y0, x1 - x0, y1 - y0); ctx.restore();
-  }
-  function drawTag() {
-    var s = spot(TAG);
-    write(s.lines, s.x, s.y, s.align, L.F, 1, L.lh);
-    pencil(bezier([s.x + 10, s.y - L.F * 0.3], [fx(18), fy(18)], -14), 1, { halo: true, seed: 60 });
-  }
-  function drawNote(n, k) {
-    if (time <= n.t[0] || time >= n.t[1]) return;
-    var appear = ease((time - n.t[0]) / 0.8), fade = ease((n.t[1] - time) / 1.3), s = spot(n);
-    ctx.save();
-    ctx.globalAlpha *= fade;
-    write(s.lines, s.x, s.y, s.align, L.F, appear, L.lh);
-    if (n.to) {
-      var p = place(n.to), from = [s.x + (n.side === "l" ? 12 : -12), s.y - L.F * 0.3], to = [fx(p[0]), fy(p[1])];
-      pencil(bezier(from, shy(from, to, 13), n.side === "l" ? -30 : 30), appear, { halo: true, seed: k * 11 + 3 });
-      if (!n.bare) ring(to, 10, ease((time - n.t[0] - 0.7) / 0.5), k * 11 + 7);
-    }
-    ctx.restore();
-  }
-  // the full stop, and the hook that turns it into a question mark
-  // the full stop fades into a question mark
-  function punctuate(end, size, turned, seed, color) {
-    ctx.save();
-    ctx.font = font(size); ctx.fillStyle = color || INK; ctx.textBaseline = "alphabetic";
-    var a = ctx.globalAlpha;
-    if (turned < 1) { ctx.globalAlpha = a * (1 - turned); ctx.fillText(".", end[0], end[1]); }
-    if (turned > 0) { ctx.globalAlpha = a * turned; ctx.fillText("?", end[0], end[1]); }
-    ctx.restore();
-  }
-  function drawClaim(c, k) {
-    if (time <= c.t[0] || time >= c.t[1]) return;
-    var appear = ease((time - c.t[0]) / 0.9), fade = ease((c.t[1] - time) / 1.3), turned = ease((time - c.turn) / 0.7);
-    var p = place(c.from), from = [fx(p[0]), fy(p[1])], lines, x, y, align, to;
-    if (c.edge === "right") {
-      // written in the right margin, its line leaving the picture through the right edge
-      lines = wrap(c.text, margin(), L.F); align = "left";
-      x = L.M + 540 + gap(); y = fy(c.y); to = [x - 12, y - L.F * 0.3];
-    } else {
-      lines = wrap(c.text, c.edge === "top" ? 520 : 600, L.F); align = "center";
-      var half = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; })) / 2 + L.F * 0.4;
-      x = Math.max(half + 12, Math.min(SW - half - 12, fx(c.at)));
-      if (c.edge === "top") { y = L.T - 44 - (lines.length - 1) * L.lh; to = [x, L.T - 44 + L.F * 0.35]; }
-      else { y = fy(960) + 86; to = [x, y - L.F * 0.85]; }
-    }
-    ctx.save();
-    ctx.globalAlpha *= fade;
-    if (c.ring) { ring(from, 10, appear, 130 + k, OPEN); from = shy(to, from, 13); }
-    pencil(bezier(from, to, 10), appear, { halo: true, seed: 140 + k * 9, dash: turned > 0 ? [10, 9 * turned] : [], color: OPEN });
-    var ends = write(lines, x, y, align, L.F, appear, L.lh, OPEN);
-    if (appear >= 1) punctuate(ends[ends.length - 1], L.F, turned, 150 + k * 9, OPEN);
-    if (c.guess && appear >= 1) guess(ends[ends.length - 1], x, align, ease((time - c.guess) / 0.9));
-    ctx.restore();
-  }
-  // the estimate, written after the question mark, or on the next line when the margin runs out
-  function guess(end, x, align, reveal) {
-    if (reveal <= 0) return;
-    ctx.font = font(L.F);
-    var w = ctx.measureText(GUESS).width, gx = end[0] + L.F * 0.62, gy = end[1], lines = [GUESS];
-    if (gx + w > SW - 14) {
-      // no room after the question mark: start a new line, and wrap if the margin is still too narrow
-      gy += L.lh;
-      var room = align === "center" ? SW - 28 : SW - 14 - x;
-      lines = wrap(GUESS, room, L.F);
-      var widest = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; }));
-      gx = align === "center" ? x - widest / 2 : x;
-    }
-    write(lines, gx, gy, "left", L.F, reveal, L.lh, EST);
-  }
-  function drawReliance() {
-    if (time <= RELY.t[0] || time >= RELY.t[1]) return;
-    var appear = ease((time - RELY.t[0]) / 1.1), fade = ease((RELY.t[1] - time) / 1.3);
-    var a = spot(BEND), b = spot(LEAN), x = L.M - (L.narrow ? 44 : 64);
-    var p0 = [x, a.bottom + 16], p1 = [x, b.top - 8];
-    ctx.save();
-    ctx.globalAlpha *= fade;
-    pencil(bezier(p0, p1, -18), appear, { seed: 120, color: ACT });
-    pencil([[x - 9, p1[1] - 13], p1, [x + 8, p1[1] - 14]], ease((time - RELY.t[0] - 1.1) / 0.3), { seed: 121, color: ACT });
-    var ls = wrap(RELY.text, L.narrow ? 150 : 280, L.F);
-    write(ls, x - 26, (p0[1] + p1[1]) / 2 - (ls.length - 1) * L.lh / 2 + L.F * 0.3, "right", L.F,
-      ease((time - RELY.t[0] - 0.5) / 0.9), L.lh, ACT);
-    ctx.restore();
-  }
-  function draw() {
-    if (!L) return;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.setTransform(ratio * scale, 0, 0, ratio * scale, 0, 0);
-    drawFrame();
-    drawTag();
-    notes.forEach(drawNote);
-    claims.forEach(drawClaim);
-    drawReliance();
-  }
-
-  function layout() {
-    var narrow = window.innerWidth < 720;
-    L = narrow ? { narrow: true, M: 230, T: 130, B: 170, F: 34, lh: 42 }
-      : { narrow: false, M: 400, T: 120, B: 140, F: 27, lh: 35 };
-    SW = 540 + 2 * L.M; SH = L.T + 960 + L.B;
-    figure.style.setProperty("--sw", SW); figure.style.setProperty("--sh", SH);
-    figure.style.setProperty("--m", L.M); figure.style.setProperty("--t", L.T);
-  }
-  function resize() {
-    layout();
-    var rect = canvas.getBoundingClientRect();
-    ratio = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(rect.width * ratio);
-    canvas.height = Math.round(rect.height * ratio);
-    scale = rect.width / SW;
-    draw();
-  }
-
-  function updateSound() {
-    if (!sound) return;
-    sound.dataset.muted = String(video.muted);
-    sound.setAttribute("aria-label", video.muted ? "Turn sound on" : "Turn sound off");
-  }
-  if (sound) sound.addEventListener("click", function () {
-    chosen = true;
-    soundWanted = video.muted;
-    video.muted = !soundWanted;
-    if (soundWanted) { video.volume = 1; manualPaused = false; play(); }
-    updateSound();
-  });
-  function updateControl() {
-    toggle.dataset.playing = String(playing);
-    toggle.setAttribute("aria-label", playing ? "Pause video and animation" : "Play video and animation");
-  }
-  function pause(reset) {
-    requestId++;
-    playing = false;
-    video.pause();
-    cancelAnimationFrame(frame);
-    frame = 0;
-    if (reset === true) {
-      video.currentTime = 0;
-      time = reducedMotion.matches ? STILL : 0;
-      draw();
-    }
-    updateControl();
-  }
-  async function play() {
-    if (playing || document.hidden) return;
-    var token = ++requestId;
-    try {
-      if (video.ended) { video.currentTime = 0; time = 0; }
-      // scrolling it into view plays muted; sound waits until the visitor presses play or sound
-      video.muted = !(soundWanted && chosen);
-      try { await video.play(); }
-      catch (error) {
-        if (video.muted || error.name !== "NotAllowedError") throw error;
-        video.muted = true;
-        await video.play();
-      }
-      updateSound();
-      if (token !== requestId) return;
-      playing = true; updateControl();
-      frame = requestAnimationFrame(loop);
-    } catch (_) {
-      if (token === requestId) { playing = false; updateControl(); updateSound(); draw(); }
-    }
-  }
-  function loop() {
-    if (!playing) return;
-    if (!video.paused && !video.seeking && video.readyState >= 2) {
-      time = video.currentTime;
-      draw();
-    }
-    frame = requestAnimationFrame(loop);
-  }
-
-  toggle.addEventListener("click", function () {
-    if (playing) { manualPaused = true; pause(); }
-    else {
-      manualPaused = false; chosen = true;
-      if (reducedMotion.matches) { video.currentTime = 0; time = 0; draw(); }
-      play();
-    }
-  });
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting;
-      if (!visible) pause(true);
-      else if (!manualPaused && !reducedMotion.matches && !document.hidden) play();
-    }, { threshold: .25 }).observe(canvas);
-  }
-  document.addEventListener("visibilitychange", function () {
-    if (document.hidden) pause(true);
-    else if (visible && !manualPaused && !reducedMotion.matches) play();
-  });
-  window.addEventListener("pagehide", function () { pause(true); });
-  reducedMotion.addEventListener("change", function () {
-    if (reducedMotion.matches) { pause(); time = STILL; draw(); }
-    else if (visible && !manualPaused && !document.hidden) play();
-  });
-  window.addEventListener("resize", resize);
-  if (document.fonts) document.fonts.load("400 27px 'Times New Roman'").then(resize);
-  updateControl(); updateSound(); resize();
+  sync();
 })();
-</script></body></html>
+</script>
+</body>
+</html>
